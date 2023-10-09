@@ -18,7 +18,6 @@ const decryptAES = (params) => {
     iv: iv,
   });
   const result = decrypt.toString(cryptoJS.enc.Utf8);
-
   return result;
 };
 

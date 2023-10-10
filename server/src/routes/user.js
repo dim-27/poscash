@@ -7,8 +7,8 @@ const router = Router();
 router.get("/", api.getUsers);
 router.get("/:userId", api.getUserById);
 
-router.post("/register", api.register);
-router.post("/login", api.login);
+router.post("/register-cashier", api.register);
+router.post("/login-cashier", api.login);
 router.post("/reset-password", api.resetPassword);
 
 router.put("/:userId", jwtAuth, api.updateUser);

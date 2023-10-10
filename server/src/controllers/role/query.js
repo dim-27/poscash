@@ -14,14 +14,14 @@ export default class QueryRole {
   }
 
   async getRoleById(roleId) {
-    const params = { id: roleId };
+    const params = { where: { id: roleId } };
     const result = await this.role.findOneRole(params);
     // if (result === null) throw new AppError("Role not Found", 404);
     return result;
   }
 
   async getRole(role) {
-    const params = { role: role };
+    const params = { where: { role: role } };
     const result = await this.role.findOneRole(params);
     // if (result === null) throw new AppError("Role not Found", 404);
     return result;

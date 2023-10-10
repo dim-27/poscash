@@ -13,9 +13,9 @@ export default class CommandRole {
     const data = {
       role: role,
     };
-    const checkRole = await this.query.getRole(role);
 
-    if (checkRole !== null) throw new AppError("Role has Already", 400);
+    const checkRole = await this.query.getRole(role);
+    if (checkRole) if (checkRole.dataValues.role === role) throw new AppError("Role has Already", 400);
     await this.Role.insertOneRole(data);
   }
 }

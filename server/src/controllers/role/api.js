@@ -20,17 +20,9 @@ const getRoleById = tryCatch(async (req, res) => {
 
 const addRole = tryCatch(async (req, res) => {
   const payload = req.body;
-  console.log(payload);
   await utils.validateSchema(payload, schema.addRole);
   const response = await command.addRole(payload);
   return utils.responseSuccess(res, response, "Success", 201);
-});
-
-const updateRole = tryCatch(async (req, res) => {
-  const params = req.params.roleId;
-  const payload = req.body;
-  const response = await command.updateRole(payload, params);
-  return utils.responseSuccess(res, response);
 });
 
 const deleteRole = tryCatch(async (req, res) => {

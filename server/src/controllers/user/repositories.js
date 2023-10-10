@@ -1,4 +1,11 @@
 import User from "../../models/user.js";
+import Role from "../../models/role.js";
+import Cart from "../../models/cart.js";
+import Order from "../../models/order.js";
+
+User.belongsTo(Role);
+User.hasMany(Cart);
+User.hasMany(Order);
 
 export default class Users {
   async findManyUser(params) {

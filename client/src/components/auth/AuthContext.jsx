@@ -35,7 +35,7 @@ export const AuthContextProvider = ({ children }) => {
     setToken(userToken.token);
     setUserId(userToken.id);
     setIsLogin(true);
-    // navigate("/");
+    navigate("/");
     // window.location.reload();
   };
 

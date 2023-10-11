@@ -1,4 +1,3 @@
-import "dotenv/config";
 import cryptoJS from "crypto-js";
 import { encode, decode } from "js-base64";
 
@@ -7,13 +6,13 @@ const keys = import.meta.env.VITE_CRYPTO_KEY;
 const iv = cryptoJS.enc.Utf8.parse(ivs);
 const key = cryptoJS.enc.Utf8.parse(keys);
 
-const encryptAES = (params) => {
+export const encryptAES = (params) => {
   const ecrypted = cryptoJS.AES.encrypt(params, key, { iv: iv });
   const result = encode(ecrypted.toString());
   return result;
 };
 
-const decryptAES = (params) => {
+export const decryptAES = (params) => {
   const decoded = decode(params);
   const decrypt = cryptoJS.AES.decrypt(decoded.toString(), key, {
     iv: iv,
@@ -21,5 +20,3 @@ const decryptAES = (params) => {
   const result = decrypt.toString(cryptoJS.enc.Utf8);
   return result;
 };
-
-export default { encryptAES, decryptAES };

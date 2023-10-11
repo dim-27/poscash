@@ -12,10 +12,8 @@ export default class CommandCart {
     this.query = new QueryCart();
     this.queryCartItem = new QueryCartItem();
     this.queryProduct = new QueryProduct();
-
     this.cart = new Carts();
     this.cartItem = new CartItems();
-    // this.cartItem = new CommandCartItems();
   }
 
   async addCart(payload) {

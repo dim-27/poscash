@@ -14,7 +14,7 @@ export default class QueryUser {
   }
 
   async getUserById(userId) {
-    const params = { id: userId };
+    const params = { where: { id: userId } };
     const result = await this.user.findOneUser(params);
     // if (result === null) throw new AppError("User not Found", 404);
     return result;

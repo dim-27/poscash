@@ -1,6 +1,5 @@
 import tryCatch from "../../utils/try-catch.js"
 import utils from "../../utils/utils.js"
-// import schema from "./schema.js"
 import QueryCategory from "./query.js"
 import CommandCategory from "./command.js"
 
@@ -20,17 +19,8 @@ const getCategoryById = tryCatch(async (req, res) => {
 
 const addCategory = tryCatch(async (req, res) => {
   const payload = req.body
-  console.log(payload)
-  await utils.validateSchema(payload, schema.addCategory)
   const response = await command.addCategory(payload)
   return utils.responseSuccess(res, response, "Success", 201)
-})
-
-const updateCategory = tryCatch(async (req, res) => {
-  const params = req.params.categoryId
-  const payload = req.body
-  const response = await command.updateCategory(payload, params)
-  return utils.responseSuccess(res, response)
 })
 
 const deleteCategory = tryCatch(async (req, res) => {
@@ -43,6 +33,5 @@ export default {
   getCategories,
   getCategoryById,
   addCategory,
-  updateCategory,
   deleteCategory,
 }

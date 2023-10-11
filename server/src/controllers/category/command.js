@@ -1,22 +1,47 @@
 import AppError from "../../utils/app-error.js"
-import Categories from "./repositories.js"
+import Categorys from "./repositories.js"
 import QueryCategory from "./query.js"
 
 export default class CommandCategory {
   constructor() {
-    this.Category = new Categories()
+    this.category = new Categorys()
     this.query = new QueryCategory()
   }
 
   async addCategory(payload) {
-    const { category } = payload
+    const { name } = payload
     const data = {
-      category: category,
+      name: name,
     }
-    const checkCategory = await this.query.getCategory(category)
 
-    if (checkCategory !== null)
-      throw new AppError("Category has Already Added", 400)
-    await this.Category.insertOneCategory(data)
+    await this.category.insertOneCategory(data)
+  }
+
+  async updateCategory(payload, CategoryId) {
+    const { name, price, imageUrl, description } = payload
+    const params = { where: { id: CategoryId } }
+    const getCategory = await this.query.getCategoryById(CategoryId)
+    const dataCategory = getCategory.dataValues
+
+    let updateData = {}
+    if (dataCategory.name !== name) {
+      updateData.name = name
+    }
+    if (dataCategory.price !== price) {
+      updateData.price = price
+    }
+    if (dataCategory.image_url !== imageUrl) {
+      updateData.image_url = imageUrl
+    }
+    if (dataCategory.description !== description) {
+      updateData.description = description
+    }
+
+    await this.category.updateOneCategory(updateData, params)
+  }
+
+  async deleteCategory(CategoryId) {
+    const params = { where: { id: CategoryId } }
+    await this.category.deleteOneCategory(params)
   }
 }

@@ -1,4 +1,7 @@
 import Category from "../../models/category.js"
+import CategoryProduct from "../../models/category-product.js"
+
+Category.hasMany(CategoryProduct)
 
 export default class Categories {
   async findManyCategory(params) {

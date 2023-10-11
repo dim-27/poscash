@@ -6,7 +6,10 @@ const router = Router()
 
 router.get("/", api.getProducts)
 router.get("/:productId", api.getProductById)
+
 router.post("/", api.addProduct)
+router.put("/:productId", api.updateProduct)
+
 router.delete("/:productId", jwtAuth, api.deleteProduct)
 
 export default router

@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import AppError from "../utils/app-error.js";
 import tryCatch from "../utils/try-catch.js";
+import Users from "../controllers/user/repositories.js";
 
+const user = new Users();
 const jwtAuth = tryCatch(async (req, res, next) => {
   const header = req.headers;
   if (header.authorization && header.authorization.includes("Bearer")) {
@@ -14,7 +16,7 @@ const jwtAuth = tryCatch(async (req, res, next) => {
           return next();
         }
       } catch (error) {
-        throw new AppError(error.message, error.code);
+        throw new AppError(error.message, 403);
       }
     }
     throw new AppError("Invalid Token", 403);

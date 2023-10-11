@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Fragment>
       <Header />
-      <div>
+      <div className="h-screen mx-auto mt-20">
         <Outlet />
       </div>
       <Footer />

@@ -1,6 +1,6 @@
 import tryCatch from "../../utils/try-catch.js"
 import utils from "../../utils/utils.js"
-// import schema from "./schema.js"
+import schema from "./schema.js"
 import QueryProduct from "./query.js"
 import CommandProduct from "./command.js"
 

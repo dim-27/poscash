@@ -1,4 +1,7 @@
 import Role from "../../models/role.js";
+import User from "../../models/user.js";
+
+Role.hasMany(User);
 
 export default class Roles {
   async findManyRole(params) {

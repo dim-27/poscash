@@ -1,6 +1,4 @@
 import multer from "multer";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -13,13 +11,12 @@ const multerStorage = multer.diskStorage({
 });
 
 const multerFilter = (req, file, cb) => {
-  if (file.mimetype.split("/") === "jpg" || "jpeg" || "png") {
+  if (file.mimetype.split("/") === "jpg" || "jpeg" || "png" || "gif") {
     cb(null, true);
   } else {
     cb(new Error("extention false"), false);
   }
 };
 
-const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-export const __dirname = dirname(fileURLToPath(import.meta.url));
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter, limits: { fieldSize: 1e6 } }).single("file");
 export default upload;

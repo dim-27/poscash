@@ -4,18 +4,47 @@ import QueryProduct from "./query.js"
 
 export default class CommandProduct {
   constructor() {
-    this.Product = new Products()
+    this.porduct = new Products()
     this.query = new QueryProduct()
   }
 
   async addProduct(payload) {
-    const { product } = payload
+    const { name, price, imageUrl, description } = payload
     const data = {
-      product: product,
+      name: name,
+      price: price,
+      image_url: imageUrl,
+      description: description,
     }
-    const checkProduct = await this.query.getProduct(product)
 
-    if (checkProduct !== null) throw new AppError("Product has Already", 400)
-    await this.Product.insertOneProduct(data)
+    await this.porduct.insertOneProduct(data)
+  }
+
+  async updateProduct(payload, productId) {
+    const { name, price, imageUrl, description } = payload
+    const params = { where: { id: productId } }
+    const getProduct = await this.query.getProductById(productId)
+    const dataProduct = getProduct.dataValues
+
+    let updateData = {}
+    if (dataProduct.name !== name) {
+      updateData.name = name
+    }
+    if (dataProduct.price !== price) {
+      updateData.price = price
+    }
+    if (dataProduct.image_url !== imageUrl) {
+      updateData.image_url = imageUrl
+    }
+    if (dataProduct.description !== description) {
+      updateData.description = description
+    }
+
+    await this.porduct.updateOneProduct(updateData, params)
+  }
+
+  async deleteProduct(productId) {
+    const params = { where: { id: productId } }
+    await this.porduct.deleteOneProduct(params)
   }
 }

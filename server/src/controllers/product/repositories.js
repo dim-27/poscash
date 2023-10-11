@@ -1,4 +1,11 @@
 import Product from "../../models/product.js"
+import CategoryProduct from "../../models/category-product.js"
+import CartItem from "../../models/cart-item.js"
+import OrderItem from "../../models/order-item.js"
+
+Product.hasMany(CategoryProduct)
+Product.hasMany(CartItem)
+Product.hasMany(OrderItem)
 
 export default class Products {
   async findManyProduct(params) {

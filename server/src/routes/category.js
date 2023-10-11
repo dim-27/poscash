@@ -6,7 +6,9 @@ const router = Router()
 
 router.get("/", api.getCategories)
 router.get("/:categoryId", api.getCategoryById)
+
 router.post("/", api.addCategory)
+
 router.delete("/:categoryId", jwtAuth, api.deleteCategory)
 
 export default router

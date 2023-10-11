@@ -2,7 +2,7 @@ import { Fragment, lazy, Suspense } from "react"
 import { Routes, Route } from "react-router"
 
 const App = lazy(() => import("./App"))
-const Home = lazy(() => import("../page/Home"))
+const Home = lazy(() => import("../pages/Home"))
 const LoginAs = lazy(() => import("../pages/auth/LoginAs"))
 const RegisterAs = lazy(() => import("../pages/auth/RegisterAs"))
 const LoginCashier = lazy(() => import("../pages/auth/LoginCashier"))

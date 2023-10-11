@@ -3,12 +3,14 @@ import { ShoppingBasket } from "lucide-react"
 const Order = () => {
   return (
     <div className="p-4 bg-slate-200 w-1/3">
-      <span className="">
-        <div className="flex items-center border bg-slate-50 rounded-3xl w-24 p-4">
-          <ShoppingBasket size={40} />
-          <p className="text-3xl font-bold ml-2">0</p>
+      <div className="flex flex-start items-center cursor-pointer">
+        <div className="h-14 p-2 border rounded-full place-content-center">
+          <span className="flex transform transition-all duration-100 hover:-translate-y-[2px]">
+            <ShoppingBasket size={32} />
+            <p className="text-2xl font-bold ml-2">0</p>
+          </span>
         </div>
-      </span>
+      </div>
     </div>
   )
 }

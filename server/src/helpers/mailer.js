@@ -17,6 +17,7 @@ const pathVerifyEmail = "./src/helpers/template/verify-email.html";
 const pathResetPassword = "./src/helpers/template/reset-password.html";
 
 const verifyEmail = (link, email) => {
+  console.log(email);
   const temp = fs.readFileSync(pathVerifyEmail, "utf8");
   const body = mustache.render(temp, { link });
   const mailOpt = { from: process.env.GMAIL_USER, to: email, subject: "Verify Email", html: body };

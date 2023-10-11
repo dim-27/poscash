@@ -1,3 +1,5 @@
+import AppError from "./app-error.js";
+
 const responseFail = (res, message, statusCode) => {
   const response = {
     status: false,

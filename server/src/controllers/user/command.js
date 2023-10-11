@@ -39,11 +39,25 @@ export default class CommandUser {
     const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
     if (!checkPwd) throw new AppError("Password not Match", 401);
     const data = { id: dataUser.id };
-    const token = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const token = crypto.encryptAES(key);
     const userData = {
       id: checkUser.id,
       token,
     };
     return userData;
+  }
+
+  async uploadImage(file, userId) {
+    const params = { where: { id: userId } };
+    const getUser = await this.query.getUserById(userId);
+    console.log(getUser);
+    let updateData = {};
+    const imageUrl = `http://localhost:8000/${file.filename}`;
+    if (getUser.dataValues.image_url !== imageUrl) {
+      updateData.image_url = imageUrl;
+    }
+
+    await this.user.updateOneUser(updateData, params);
   }
 }

@@ -35,6 +35,5 @@ export default {
   getRoles,
   getRoleById,
   addRole,
-  updateRole,
   deleteRole,
 };

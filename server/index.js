@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-
+import helmet from "helmet";
 import { connetionMysql } from "./src/config/db.js";
 
 import userRoutes from "./src/routes/user.js";
@@ -22,8 +22,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public"));
 app.use(morgan("dev"));
 app.use(cors());
+app.use(helmet());
 
 connetionMysql();
 

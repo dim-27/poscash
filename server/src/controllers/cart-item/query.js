@@ -19,4 +19,11 @@ export default class QueryCartItem {
     // if (result === null) throw new AppError("CartItem not Found", 404);
     return result;
   }
+
+  async getCartItemByproductId(productId) {
+    const params = { where: { productId: productId } };
+    const result = await this.cartItem.findOneCartItem(params);
+    // if (result === null) throw new AppError("CartItem not Found", 404);
+    return result;
+  }
 }

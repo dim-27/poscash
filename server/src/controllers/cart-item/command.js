@@ -14,11 +14,11 @@ export default class CommandCartItem {
       name: name,
       price: price,
       qty: qty,
-      total: total,
+      total_price: total,
       productId: productId,
       cartId: cartId,
     };
-
+    console.log("data", data);
     await this.cartItem.insertOneCartItem(data);
   }
 

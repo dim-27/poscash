@@ -20,4 +20,11 @@ export default class QueryCart {
     // if (result === null) throw new AppError("Cart not Found", 404);
     return result;
   }
+
+  async getCartByUserId(userId) {
+    const params = { include: [{ model: CartItem }], where: { userId: userId } };
+    const result = await this.cart.findOneCart(params);
+    // if (result === null) throw new AppError("Cart not Found", 404);
+    return result;
+  }
 }

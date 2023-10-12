@@ -1,13 +1,11 @@
-import { IceCream2, Utensils, Pizza, GlassWater, Percent } from "lucide-react"
+import { Utensils, Pizza, GlassWater, IceCream2 } from "lucide-react"
 
 const Category = ({ category }) => {
   return (
     <div className="flex group text-center flex-col items-center mt-4 mx-2 cursor-pointer">
       <div className="h-14 px-4 border rounded-full grid place-content-center">
         <span className="flex transform transition-all duration-100 group-hover:-translate-y-[2px]">
-          {category === "Promo" ? (
-            <Percent />
-          ) : category === "Dessert" ? (
+          {category === "Dessert" ? (
             <IceCream2 />
           ) : category === "Foods" ? (
             <Pizza />

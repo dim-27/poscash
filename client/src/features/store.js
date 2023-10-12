@@ -1,5 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import eventSlice from "./globalReducer.js";
+import { configureStore } from "@reduxjs/toolkit"
+import productReducer from "./globalReducer"
+
 export const store = configureStore({
-  reducer: eventSlice,
-});
+  reducer: {
+    product: productReducer,
+  },
+})

@@ -10,11 +10,11 @@ const RegisterAs = () => {
             Register as Cashier
           </Button>
         </Link>
-        <Link to="/register-admin" className="w-60 h-12 mt-2">
+        {/* <Link to="/register-admin" className="w-60 h-12 mt-2">
           <Button className="w-full h-full text-xl bg-red-500 rounded-full hover:bg-red-400 ease-in-out duration-300">
             Register as Admin
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

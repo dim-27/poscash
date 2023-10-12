@@ -6,7 +6,9 @@ const Home = lazy(() => import("../page/Home"))
 const LoginAs = lazy(() => import("../pages/auth/LoginAs"))
 const RegisterAs = lazy(() => import("../pages/auth/RegisterAs"))
 const LoginCashier = lazy(() => import("../pages/auth/LoginCashier"))
+const LoginAdmin = lazy(() => import("../pages/auth/LoginAdmin"))
 const RegisterCashier = lazy(() => import("../pages/auth/RegisterCashier"))
+
 const Profile = lazy(() => import("../pages/dashboard/Profile"))
 
 const AppWrapper = () => {
@@ -19,6 +21,7 @@ const AppWrapper = () => {
             <Route path="/login" element={<LoginAs />} />
             <Route path="/register" element={<RegisterAs />} />
             <Route path="/login-cashier" element={<LoginCashier />} />
+            <Route path="/login-admin" element={<LoginAdmin />}/>
             <Route path="/register-cashier" element={<RegisterCashier />} />
             <Route path="/profile" element={<Profile />} />
           </Route>

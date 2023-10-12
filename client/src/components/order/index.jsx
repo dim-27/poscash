@@ -1,4 +1,5 @@
-import { ShoppingBasket } from "lucide-react"
+import { ShoppingBasket } from "lucide-react";
+import Cart from "../cart/Cart";
 
 const Order = () => {
   return (
@@ -9,8 +10,9 @@ const Order = () => {
           <p className="text-3xl font-bold ml-2">0</p>
         </div>
       </span>
+      <Cart />
     </div>
-  )
-}
+  );
+};
 
-export default Order
+export default Order;

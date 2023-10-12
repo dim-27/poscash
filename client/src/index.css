@@ -66,6 +66,9 @@
   .active {
     @apply bg-primary text-primary-foreground;
   }
+  .btn-disabled {
+    opacity: 0.3;
+  }
 }
 
 input.hide[type="radio"] {

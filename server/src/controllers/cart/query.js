@@ -1,6 +1,7 @@
 import AppError from "../../utils/app-error.js";
 import Carts from "./repositories.js";
 import CartItem from "../../models/cart-item.js";
+import Product from "../../models/product.js";
 
 export default class QueryCart {
   constructor() {
@@ -22,7 +23,7 @@ export default class QueryCart {
   }
 
   async getCartByUserId(userId) {
-    const params = { include: [{ model: CartItem }], where: { userId: userId } };
+    const params = { include: [{ model: CartItem, include: [{ model: Product }] }], where: { userId: userId } };
     const result = await this.cart.findOneCart(params);
     // if (result === null) throw new AppError("Cart not Found", 404);
     return result;

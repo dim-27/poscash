@@ -1,11 +1,9 @@
 import AppError from "../../utils/app-error.js";
 import Carts from "./repositories.js";
+import CartItems from "../cart-item/repositories.js";
 import QueryCart from "./query.js";
 import QueryCartItem from "../cart-item/query.js";
 import QueryProduct from "../product/query.js";
-
-import CartItems from "../cart-item/repositories.js";
-import CommandCartItems from "../cart-item/command.js";
 
 export default class CommandCart {
   constructor() {
@@ -25,7 +23,7 @@ export default class CommandCart {
 
     const getProduct = await this.queryProduct.getProductById(productId);
     const { price, name } = getProduct.dataValues;
-    const total = quantity * price;
+    const total = quantity * Number(price);
     const getCart = await this.query.getCartByUserId(userId);
     if (getCart) {
       const checkProduct = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
@@ -73,16 +71,65 @@ export default class CommandCart {
         name: name,
         qty: quantity,
         price: price,
-        total: total,
+        total_price: total,
         cartId: id,
         productId: productId,
       };
-      const subTotal = total;
-      let updateData = { sub_total: subTotal };
+      let updateData = { sub_total: total };
       const params = { where: { id: id } };
       await this.cartItem.insertOneCartItem(dataCartItem);
       await this.cart.updateOneCart(updateData, params);
     }
+  }
+
+  async increaseQuantity(payload) {
+    const { productId, userId } = payload;
+    const params = { where: { productId: productId } };
+    const getCartItem = await this.cartItem.findOneCartItem(params);
+    const { qty, price } = getCartItem.dataValues;
+    const increase = Number(qty) + 1;
+    const totalPrice = Number(price) * increase;
+    const updateQty = { qty: increase, total_price: totalPrice };
+    await this.cartItem.updateOneCartItem(updateQty, params);
+
+    const getCarts = await this.query.getCartByUserId(userId);
+    const { cart_items, id } = getCarts.dataValues;
+    const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
+    let updateSubTotal = { sub_total: subTotal };
+    const paramsUpdate = { where: { id: id } };
+    await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+  }
+
+  async decreaseQuantity(payload) {
+    const { productId, userId } = payload;
+    const params = { where: { productId: productId } };
+    const getCartItem = await this.cartItem.findOneCartItem(params);
+    const { qty, price } = getCartItem.dataValues;
+    const increase = Number(qty) - 1;
+    const totalPrice = Number(price) * increase;
+    const updateQty = { qty: increase, total_price: totalPrice };
+    await this.cartItem.updateOneCartItem(updateQty, params);
+
+    const getCarts = await this.query.getCartByUserId(userId);
+    const { cart_items, id } = getCarts.dataValues;
+    const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
+    let updateSubTotal = { sub_total: subTotal };
+    const paramsUpdate = { where: { id: id } };
+    await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+  }
+
+  async deleteCartItem(payload) {
+    const { productId, userId } = payload;
+    const params = { where: { productId: productId } };
+    await this.cartItem.deleteOneCartItem(params);
+
+    const getCarts = await this.query.getCartByUserId(userId);
+    const { cart_items, id } = getCarts.dataValues;
+    const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
+    let updateSubTotal = { sub_total: subTotal };
+    const paramsUpdate = { where: { id: id } };
+    console.log(subTotal);
+    await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
   }
 
   async deleteCart(cartId) {

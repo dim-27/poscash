@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux"
-import { selectQuantity } from "@/features/globalReducer"
-import { ShoppingBasket } from "lucide-react"
+import Cart from "../cart/Cart";
+import { useSelector } from "react-redux";
+import { selectQuantity } from "@/features/globalReducer";
+import { ShoppingBasket } from "lucide-react";
 
 const Order = () => {
-  const quantity = useSelector(selectQuantity)
+  const quantity = useSelector(selectQuantity);
 
   return (
     <div className="p-4 bg-slate-200 w-1/3">
@@ -15,8 +16,9 @@ const Order = () => {
           </span>
         </div>
       </div>
+      <Cart />
     </div>
-  )
-}
+  );
+};
 
-export default Order
+export default Order;

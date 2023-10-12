@@ -7,8 +7,8 @@ import Footer from "../layout/Footer"
 const App = () => {
   return (
     <Fragment>
-      <Header />
-      <div className="pt-20 h-max">
+      <div className="h-screen">
+        <Header />
         <Outlet />
       </div>
       <Footer />

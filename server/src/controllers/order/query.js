@@ -20,4 +20,11 @@ export default class QueryOrder {
     // if (result === null) throw new AppError("Order not Found", 404);
     return result;
   }
+
+  async getOrderByUserId(userId) {
+    const params = { where: { id: userId } };
+    const result = await this.order.findOneOrder(params);
+    // if (result === null) throw new AppError("Order not Found", 404);
+    return result;
+  }
 }

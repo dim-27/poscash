@@ -21,6 +21,11 @@ export default class OrderItems {
     return result;
   }
 
+  async insertManyOrderItem(data) {
+    const result = await OrderItem.bulkCreate(data);
+    return result;
+  }
+
   async updateOneOrderItem(data, params) {
     const result = await OrderItem.update(data, params);
     return result;

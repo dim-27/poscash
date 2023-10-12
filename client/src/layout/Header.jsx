@@ -109,7 +109,7 @@ const Header = () => {
     }
   }, [darkMode])
   return (
-    <nav className="z-20 w-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between  gap-4 px-6 sm:px-10 py-2 shadow-sm fixed top-0 left-0 bg-white">
+    <nav className="z-20 w-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between  gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
       <div className="flex gap-8 items-center">
         <Link
           className="text-xl text-red-500 font-bold leading-4 hidden md:block text-primary dark:text-foreground"

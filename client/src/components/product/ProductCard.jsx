@@ -6,8 +6,9 @@ import { Settings, Trash } from "lucide-react"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import ManageProduct from "./manage/ManageProduct"
 import DeleteProduct from "./manage/DeleteProduct"
+import PropTypes from "prop-types"
 
-const ProductCard = ({ product, role, index }) => {
+const ProductCard = ({ product, role }) => {
   const dispatch = useDispatch()
   const [total, setTotal] = useState(0)
 
@@ -53,7 +54,7 @@ const ProductCard = ({ product, role, index }) => {
                 </div>
               </DialogTrigger>
               <DialogContent>
-                <DeleteProduct product={product} index={index} />
+                <DeleteProduct product={product} />
               </DialogContent>
             </Dialog>
             <Dialog>
@@ -92,6 +93,11 @@ const ProductCard = ({ product, role, index }) => {
       </div>
     </div>
   )
+}
+
+ProductCard.propTypes = {
+  product: PropTypes.any,
+  role: PropTypes.any,
 }
 
 export default ProductCard

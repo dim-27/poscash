@@ -1,5 +1,5 @@
-import Product from "@/components/product"
-import Order from "@/components/order"
+import Product from "@/components/product";
+import Order from "@/components/order";
 
 const Home = () => {
   return (
@@ -9,7 +9,7 @@ const Home = () => {
       </div>
       <Order />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

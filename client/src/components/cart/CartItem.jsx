@@ -4,6 +4,7 @@ import { Trash2 } from "lucide-react";
 import { putAPI } from "@/repositories/api";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthContext";
+import PropTypes from "prop-types";
 
 const CartItem = ({ item }) => {
   const { userId } = useContext(AuthContext);
@@ -53,6 +54,10 @@ const CartItem = ({ item }) => {
       </div>
     </div>
   );
+};
+
+CartItem.propTypes = {
+  item: PropTypes.any,
 };
 
 export default CartItem;

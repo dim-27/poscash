@@ -15,8 +15,8 @@ const Order = () => {
             <p className="text-2xl font-bold ml-2">{quantity}</p>
           </span>
         </div>
-        <Cart />
       </div>
+      <Cart />
     </div>
   );
 };

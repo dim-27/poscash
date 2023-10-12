@@ -1,24 +1,25 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
-import { FormatToIDR } from "@/lib/utils"
-import { Settings } from "lucide-react"
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { incrementQuantity, decrementQuantity } from "@/features/globalReducer";
+import { FormatToIDR } from "@/lib/utils";
+import { Settings } from "lucide-react";
+import PropTypes from "prop-types";
 
 const ProductCard = ({ product, role }) => {
-  const dispatch = useDispatch()
-  const [total, setTotal] = useState(0)
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
 
   const handleIncrement = () => {
-    dispatch(incrementQuantity())
-    setTotal(total + 1)
-  }
+    dispatch(incrementQuantity());
+    setTotal(total + 1);
+  };
 
   const handleDecrement = () => {
     if (total > 0) {
-      dispatch(decrementQuantity())
-      setTotal(total - 1)
+      dispatch(decrementQuantity());
+      setTotal(total - 1);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 p-2 rounded-lg relative w-72">
@@ -35,9 +36,7 @@ const ProductCard = ({ product, role }) => {
       <div className="flex justify-between items-center">
         <div className="flex flex-col items-start">
           <span className="text-lg text-slate-50">{product.name}</span>
-          <span className="text-white font-bold">
-            {FormatToIDR(product.price)}
-          </span>
+          <span className="text-white font-bold">{FormatToIDR(product.price)}</span>
         </div>
         {role === 1 ? (
           <div className="p-2 group rounded-full bg-gray-400 cursor-pointer">
@@ -67,7 +66,12 @@ const ProductCard = ({ product, role }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductCard
+ProductCard.propTypes = {
+  product: PropTypes.any,
+  role: PropTypes.any,
+};
+
+export default ProductCard;

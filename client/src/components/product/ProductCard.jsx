@@ -1,7 +1,25 @@
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
 import { FormatToIDR } from "@/lib/utils"
 import { Settings } from "lucide-react"
 
 const ProductCard = ({ product, role }) => {
+  const dispatch = useDispatch()
+  const [total, setTotal] = useState(0)
+
+  const handleIncrement = () => {
+    dispatch(incrementQuantity())
+    setTotal(total + 1)
+  }
+
+  const handleDecrement = () => {
+    if (total > 0) {
+      dispatch(decrementQuantity())
+      setTotal(total - 1)
+    }
+  }
+
   return (
     <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 p-2 rounded-lg relative w-72">
       <div
@@ -21,22 +39,31 @@ const ProductCard = ({ product, role }) => {
             {FormatToIDR(product.price)}
           </span>
         </div>
-        {role === "admin" ? (
+        {role === 1 ? (
           <div className="p-2 group rounded-full bg-gray-400 cursor-pointer">
             <div className="group-hover:-translate-y-[1px]">
               <Settings />
             </div>
           </div>
-        ) : (
+        ) : role === 2 ? (
           <span className="flex items-center">
-            <button className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold">
+            <button
+              onClick={handleDecrement}
+              className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
+              disabled={total <= 0}
+            >
               -
             </button>
-            <p className="mx-2 text-2xl">{0}</p>
-            <button className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold">
+            <p className="mx-2 text-2xl">{total}</p>
+            <button
+              onClick={handleIncrement}
+              className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
+            >
               +
             </button>
           </span>
+        ) : (
+          <div></div>
         )}
       </div>
     </div>

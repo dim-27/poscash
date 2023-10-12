@@ -1,11 +1,22 @@
-import { useState, useEffect } from "react"
+import { useState, useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getAPI } from "@/repositories/api"
+import { AuthContext } from "@/components/auth/AuthContext"
 import ProductCard from "./ProductCard"
 
 const productsPerPage = 10
 
 const ProductList = () => {
+  const { userId } = useContext(AuthContext)
+  const { data: user, isFetched: userFetched } = useQuery(
+    ["user-profile"],
+    async () => {
+      const res = await getAPI(`user/${userId}`)
+      return res.data
+    }
+    // { refetchInterval: 5000 }
+  )
+  const role = userFetched && user?.roleId
   const { data, isFetched } = useQuery(
     ["products"],
     async () => {
@@ -16,26 +27,16 @@ const ProductList = () => {
   )
 
   const [currentPage, setCurrentPage] = useState(1)
+
   const totalProducts = isFetched && data.length
   const totalPages = Math.ceil(totalProducts / productsPerPage)
 
-  const fetchProducts = (page) => {
-    const products = []
-    const startIndex = (page - 1) * productsPerPage
-    const endIndex = Math.min(startIndex + productsPerPage, totalProducts)
-
-    for (let i = startIndex; i < endIndex; i++) {
-      products.push(isFetched && data[i])
-    }
-
-    return products
-  }
-
-  const [products, setProducts] = useState(fetchProducts(currentPage))
-
-  useEffect(() => {
-    setProducts(fetchProducts(currentPage))
-  }, [currentPage, totalProducts])
+  const products = isFetched
+    ? data.slice(
+        (currentPage - 1) * productsPerPage,
+        currentPage * productsPerPage
+      )
+    : []
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
@@ -46,7 +47,7 @@ const ProductList = () => {
       <div className="overflow-auto h-[600px] p-4">
         <div className="grid grid-cols-4 gap-2">
           {products.map((product, i) => (
-            <ProductCard key={i} product={product} role="cashier" />
+            <ProductCard key={i} product={product} role={role} />
           ))}
         </div>
       </div>

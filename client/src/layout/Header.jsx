@@ -1,10 +1,17 @@
 // import { toggleSearch } from "@/features/slice/eventSlice";
-import { Switch } from "@/components/ui/switch";
-import { LayoutDashboard, LogOut, Search, Wallet, ShoppingCart, UserCircle } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FormatToIDR } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch"
+import {
+  LayoutDashboard,
+  LogOut,
+  Search,
+  Wallet,
+  ShoppingCart,
+  UserCircle,
+} from "lucide-react"
+import { Link } from "react-router-dom"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { FormatToIDR } from "@/lib/utils"
+import { Input } from "@/components/ui/input"
 
 import {
   DropdownMenu,
@@ -13,30 +20,33 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAPI } from "@/repositories/api";
-import { useContext } from "react";
-import { AuthContext } from "@/components/auth/AuthContext";
+import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { getAPI } from "@/repositories/api"
+import { useContext } from "react"
+import { AuthContext } from "@/components/auth/AuthContext"
 
 const UserProfile = () => {
-  const { userId, logout } = useContext(AuthContext);
+  const { userId, logout } = useContext(AuthContext)
   const { data: user, isFetched } = useQuery(
     ["user-profile"],
     async () => {
-      const res = await getAPI(`user/${userId}`);
-      return res.data;
+      const res = await getAPI(`user/${userId}`)
+      return res.data
     }
     // { refetchInterval: 5000 }
-  );
+  )
   return (
     isFetched && (
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="ring-2 ring-red-500">
-            <AvatarImage className="object-cover" src={user.image_url ? user.image_url : ""} />
+            <AvatarImage
+              className="object-cover"
+              src={user.image_url ? user.image_url : ""}
+            />
             <AvatarFallback>A</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -78,26 +88,26 @@ const UserProfile = () => {
         </DropdownMenuContent>
       </DropdownMenu>
     )
-  );
-};
+  )
+}
 
 const Header = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const { isLogin } = useContext(AuthContext);
+  const [darkMode, setDarkMode] = useState(false)
+  const { isLogin } = useContext(AuthContext)
 
   useEffect(() => {
-    const mode = darkMode ? "dark" : "light";
-    localStorage.setItem("mode", mode);
-  }, [darkMode]);
+    const mode = darkMode ? "dark" : "light"
+    localStorage.setItem("mode", mode)
+  }, [darkMode])
 
   useEffect(() => {
-    const mode = localStorage.getItem("mode");
-    document.documentElement.classList.add(mode);
+    const mode = localStorage.getItem("mode")
+    document.documentElement.classList.add(mode)
 
     return () => {
-      document.documentElement.classList.remove(mode);
-    };
-  }, [darkMode]);
+      document.documentElement.classList.remove(mode)
+    }
+  }, [darkMode])
   return (
     <nav className="z-20 w-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between  gap-4 px-6 sm:px-10 py-2 shadow-sm fixed top-0 left-0 bg-white">
       <div className="flex gap-8 items-center">
@@ -114,7 +124,10 @@ const Header = () => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <Link to={`/${isLogin ? "cart" : "login"}`} className="flex items-center backdrop-blur-sm gap-4 px-4 py-2 ">
+        <Link
+          to={`/${isLogin ? "cart" : "login"}`}
+          className="flex items-center backdrop-blur-sm gap-4 px-4 py-2 "
+        >
           <ShoppingCart size={20} />
         </Link>
         <div className={`${isLogin && "p-1 rounded-md w-12 h-12 ml-8"}`}>
@@ -138,11 +151,15 @@ const Header = () => {
           )}
         </div>
         <div className="flex items-center space-x-2">
-          <Switch id="theme-mode" checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+          <Switch
+            id="theme-mode"
+            checked={darkMode}
+            onCheckedChange={() => setDarkMode(!darkMode)}
+          />
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

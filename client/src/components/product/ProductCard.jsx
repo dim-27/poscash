@@ -2,9 +2,12 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
 import { FormatToIDR } from "@/lib/utils"
-import { Settings } from "lucide-react"
+import { Settings, Trash } from "lucide-react"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import ManageProduct from "./manage/ManageProduct"
+import DeleteProduct from "./manage/DeleteProduct"
 
-const ProductCard = ({ product, role }) => {
+const ProductCard = ({ product, role, index }) => {
   const dispatch = useDispatch()
   const [total, setTotal] = useState(0)
 
@@ -40,10 +43,31 @@ const ProductCard = ({ product, role }) => {
           </span>
         </div>
         {role === 1 ? (
-          <div className="p-2 group rounded-full bg-gray-400 cursor-pointer">
-            <div className="group-hover:-translate-y-[1px]">
-              <Settings />
-            </div>
+          <div className="flex gap-2">
+            <Dialog>
+              <DialogTrigger>
+                <div className="p-2 group rounded-full bg-red-400 cursor-pointer items-center">
+                  <div className="group-hover:-translate-y-[1px]">
+                    <Trash />
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent>
+                <DeleteProduct product={product} index={index} />
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger>
+                <div className="p-2 group rounded-full bg-gray-400 cursor-pointer items-center">
+                  <div className="group-hover:-translate-y-[1px]">
+                    <Settings />
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent>
+                <ManageProduct product={product} action="edit" />
+              </DialogContent>
+            </Dialog>
           </div>
         ) : role === 2 ? (
           <span className="flex items-center">

@@ -1,7 +1,8 @@
 import axios from "axios"
 
-const baseUrl = "http://localhost:8000/api"
+const baseUrl = import.meta.env.VITE_BASE_URL
 const axiosClient = axios.create({ baseURL: baseUrl })
+
 export const getAPI = async (params) => {
   const res = await axiosClient.get(`${baseUrl}/${params}`)
   return res.data
@@ -30,7 +31,7 @@ export const putAPI = async (params, data, token) => {
 }
 
 export const deleteAPI = async (params, token) => {
-  const res = await axios.get(`${baseUrl}/${params}`, {
+  const res = await axiosClient.delete(`${baseUrl}/${params}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return res.data

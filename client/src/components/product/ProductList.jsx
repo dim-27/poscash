@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query"
 import { getAPI } from "@/repositories/api"
 import { AuthContext } from "@/components/auth/AuthContext"
 import ProductCard from "./ProductCard"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import ManageProduct from "./manage/ManageProduct"
 
 const productsPerPage = 10
 
@@ -49,6 +51,18 @@ const ProductList = () => {
           {products.map((product, i) => (
             <ProductCard key={i} product={product} role={role} />
           ))}
+          {role === 1 && (
+            <Dialog>
+              <DialogTrigger>
+                <div className="flex bg-gray-400 p-2 rounded-lg relative w-72 h-full text-8xl justify-center items-center hover:bg-gray-500 opacity-70">
+                  +
+                </div>
+              </DialogTrigger>
+              <DialogContent>
+                <ManageProduct action="create" />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
       <div className="flex justify-center p-4">

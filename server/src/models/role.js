@@ -6,4 +6,5 @@ const Role = sequelize.define("role", {
   role: { type: DataTypes.ENUM(["admin", "cashier"]) },
 })
 
+
 export default Role

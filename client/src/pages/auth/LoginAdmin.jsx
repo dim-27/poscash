@@ -18,7 +18,7 @@ import { AuthContext } from "@/components/auth/AuthContext";
 
 const LoginAdmin = () => {
   const navigate = useNavigate();
-  const { loginUser } = useContext(AuthContext);
+  const { loginAdmin } = useContext(AuthContext);
   const initForm = {
     email: "",
     password: "",
@@ -30,7 +30,7 @@ const LoginAdmin = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      return await loginUser(data);
+      return await loginAdmin(data);
     },
   });
 

@@ -1,3 +1,4 @@
+import LoginAdmin from "@/pages/auth/LoginAdmin";
 import { Fragment, lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
 
@@ -5,6 +6,7 @@ const App = lazy(() => import("./App"));
 const Home = lazy(() => import("../pages/Home"));
 const LoginAs = lazy(() => import("../pages/auth/LoginAs"));
 const LoginCashier = lazy(() => import("../pages/auth/LoginCashier"));
+const loginAdmin = lazy(() => import("../pages/auth/LoginAdmin"));
 const RegisterCashier = lazy(() => import("../pages/auth/register"));
 
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
@@ -22,6 +24,7 @@ const AppWrapper = () => {
             <Route path="" element={<Home />} />
             <Route path="login" element={<LoginAs />} />
             <Route path="login-cashier" element={<LoginCashier />} />
+            <Route path="login-admin" element={<LoginAdmin />} />
             <Route path="register-cashier" element={<RegisterCashier />} />
 
             <Route path="dashboard" element={<Dashboard />}>

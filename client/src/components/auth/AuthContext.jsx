@@ -49,18 +49,17 @@ export const AuthContextProvider = ({ children }) => {
   const logout = () => {
     sessionStorage.removeItem("token");
     navigate("/");
-    // window.location.reload();
+    window.location.reload();
   };
 
-  const loginUser = async (data) => {
-    const res = await postAPI("user/login-admin", data);
+  const loginCashier = async (data) => {
+    const res = await postAPI("user/login-cashier", data);
     saveToken(res.data);
   };
 
   const loginAdmin = async (data) => {
-    const res = await postAPI("admin/login-admin", data);
-    console.log(res.data);
-    // console.log(token);
+    console.log(data);
+    const res = await postAPI("user/login-admin", data);
     saveToken(res.data);
   };
 
@@ -69,7 +68,7 @@ export const AuthContextProvider = ({ children }) => {
       value={{
         setToken,
         logout,
-        loginUser,
+        loginCashier,
         loginAdmin,
         saveToken,
         token,

@@ -22,11 +22,7 @@ import { AuthContext } from "@/components/auth/AuthContext";
 
 const UserProfile = () => {
   const { userId, logout, isAdmin } = useContext(AuthContext);
-  const {
-    data: user,
-    isFetched,
-    refetch,
-  } = useQuery(
+  const { data: user, isFetched } = useQuery(
     ["user-profile"],
     async () => {
       const res = await getAPI(`user/${userId}`);
@@ -152,7 +148,7 @@ const Header = () => {
                 Login
               </Link>
               <Link
-                to="/register"
+                to="/register-cashier"
                 className="w-24 text-center text-white p-2 px-4 bg-red-500 hover:bg-red-400 rounded-full"
               >
                 Register

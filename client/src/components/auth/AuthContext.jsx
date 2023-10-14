@@ -57,12 +57,20 @@ export const AuthContextProvider = ({ children }) => {
     saveToken(res.data);
   };
 
+  const loginAdmin = async (data) => {
+    const res = await postAPI("admin/login-admin", data);
+    console.log(res.data);
+    // console.log(token);
+    saveToken(res.data);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         setToken,
         logout,
         loginUser,
+        loginAdmin,
         saveToken,
         token,
         userId,

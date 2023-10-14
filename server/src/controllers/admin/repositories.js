@@ -1,4 +1,11 @@
 import Admin from "../../models/admin.js";
+import Role from "../../models/role.js";
+
+Admin.belongsTo(Role, {
+  foreignKey: {
+    name: 'roleId'
+  }
+});
 
 export default class Admins {
   async findManyAdmin(params) {

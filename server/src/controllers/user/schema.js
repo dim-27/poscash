@@ -7,7 +7,7 @@ const register = joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "proton"] } })
     .max(100)
     .required(),
-  password: joi.string().min(8).max(16).required(),
+  password: joi.string().min(6).max(16).required(),
 });
 
 const login = joi.object({
@@ -16,7 +16,7 @@ const login = joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "proton"] } })
     .max(100)
     .required(),
-  password: joi.string().min(8).max(16).required(),
+  password: joi.string().min(6).max(16).required(),
 });
 
 const schema = { register, login };

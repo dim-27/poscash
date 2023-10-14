@@ -32,6 +32,20 @@ const login = tryCatch(async (req, res) => {
   return utils.responseSuccess(res, response);
 });
 
+const loginCashier = tryCatch(async (req, res) => {
+  const payload = req.body;
+  await utils.validateSchema(payload, schema.login);
+  const response = await command.loginCashier(payload);
+  return utils.responseSuccess(res, response);
+});
+
+const loginAdmin = tryCatch(async (req, res) => {
+  const payload = req.body;
+  await utils.validateSchema(payload, schema.login);
+  const response = await command.loginAdmin(payload);
+  return utils.responseSuccess(res, response);
+});
+
 const updateUser = tryCatch(async (req, res) => {
   const params = req.params.userId;
   const payload = req.body;
@@ -62,7 +76,8 @@ export default {
   getUsers,
   getUserById,
   register,
-  login,
+  loginCashier,
+  loginAdmin,
   updateUser,
   resetPassword,
   uploadImage,

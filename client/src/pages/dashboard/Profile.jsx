@@ -15,7 +15,6 @@ import { decryptAES } from "@/utils/crypto";
 
 const Profile = () => {
   const { userId, token } = useContext(AuthContext);
-  // const refineToken = decryptAES(token);
 
   const uploadImage = {
     file: "",

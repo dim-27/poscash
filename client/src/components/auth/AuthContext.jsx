@@ -22,13 +22,20 @@ export const AuthContextProvider = ({ children }) => {
     const tokenString = sessionStorage.getItem("token");
     const userToken = JSON.parse(tokenString);
     const valid = userToken?.token;
-    if (valid) return true;
+    return valid ? true : false;
   };
 
+  const admin = () => {
+    const tokenString = sessionStorage.getItem("token");
+    const userToken = JSON.parse(tokenString);
+    const role = userToken?.role;
+    return role === 1 ? true : false;
+  };
   // sessionStorage.clear();
   const [token, setToken] = useState(getToken());
   const [userId, setUserId] = useState(getUserId());
   const [isLogin, setIsLogin] = useState(login());
+  const [isAdmin] = useState(admin());
 
   const saveToken = (userToken) => {
     sessionStorage.setItem("token", JSON.stringify(userToken));
@@ -36,19 +43,17 @@ export const AuthContextProvider = ({ children }) => {
     setUserId(userToken.id);
     setIsLogin(true);
     navigate("/");
-    // window.location.reload();
+    window.location.reload();
   };
 
   const logout = () => {
     sessionStorage.removeItem("token");
     navigate("/");
-    window.location.reload();
+    // window.location.reload();
   };
 
   const loginUser = async (data) => {
-    const res = await postAPI("user/login-cashier", data);
-    console.log(res.data);
-    // console.log(token);
+    const res = await postAPI("user/login-admin", data);
     saveToken(res.data);
   };
 
@@ -62,6 +67,7 @@ export const AuthContextProvider = ({ children }) => {
         token,
         userId,
         isLogin,
+        isAdmin,
       }}
     >
       {children}

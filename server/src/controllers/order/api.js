@@ -17,9 +17,33 @@ const getOrderById = tryCatch(async (req, res) => {
   return utils.responseSuccess(res, response);
 });
 
+const getOrderByUserId = tryCatch(async (req, res) => {
+  const params = req.params.userId;
+  const response = await query.getOrderByUserId(params);
+  return utils.responseSuccess(res, response);
+});
+
+const getOrderItems = tryCatch(async (req, res) => {
+  const params = req.query;
+  const response = await query.getOrderItems(params);
+  return utils.responseSuccess(res, response);
+});
+
+const transaction = tryCatch(async (req, res) => {
+  const payload = req.body;
+  const response = await command.transaction(payload);
+  return utils.responseSuccess(res, response, "Success", 201);
+});
+
 const addOrder = tryCatch(async (req, res) => {
   const payload = req.body;
   const response = await command.addOrder(payload);
+  return utils.responseSuccess(res, response, "Success", 201);
+});
+
+const addOrderItem = tryCatch(async (req, res) => {
+  const payload = req.body;
+  const response = await command.addOrderItem(payload);
   return utils.responseSuccess(res, response, "Success", 201);
 });
 
@@ -32,6 +56,10 @@ const deleteOrder = tryCatch(async (req, res) => {
 export default {
   getOrders,
   getOrderById,
+  getOrderByUserId,
+  getOrderItems,
+  transaction,
   addOrder,
+  addOrderItem,
   deleteOrder,
 };

@@ -9,7 +9,7 @@ const App = () => {
     <Fragment>
       <div className="h-screen">
         <Header />
-        <div className="mx-auto">
+        <div className="mx-auto pt-10">
           <div className="w-4/5 mx-auto">
             <Outlet />
           </div>

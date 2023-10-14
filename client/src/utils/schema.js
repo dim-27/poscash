@@ -10,13 +10,14 @@ export const registerSchema = z.object({
     .string()
     .min(8, { message: "password must be at least 8 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
+  roleId: z.number(),
 });
 
 export const loginSchema = z.object({
   email: z.string().min(2, { message: "This field has to be filled." }).email("This is not a valid email."),
   password: z
     .string()
-    .min(8, { message: "password must be at least 8 character(s)" })
+    .min(6, { message: "password must be at least 8 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
 });
 

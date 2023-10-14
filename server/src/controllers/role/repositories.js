@@ -19,6 +19,11 @@ export default class Roles {
     return result;
   }
 
+  async insertManyRole(data) {
+    const result = await Role.bulkCreate(data);
+    return result;
+  }
+
   async updateOneRole(data, params) {
     const result = await Role.update(data, params);
     return result;

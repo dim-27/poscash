@@ -114,7 +114,3 @@ const LoginCashier = () => {
   );
 };
 export default LoginCashier;
-
-// Login.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };

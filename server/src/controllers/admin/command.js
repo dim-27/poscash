@@ -47,4 +47,3 @@ export default class CommandAdmin {
     return adminData;
   }
 }
-

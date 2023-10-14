@@ -9,7 +9,8 @@ router.get("/", api.getUsers);
 router.get("/:userId", api.getUserById);
 
 router.post("/register-cashier", api.register);
-router.post("/login-cashier", api.login);
+router.post("/login-cashier", api.loginCashier);
+router.post("/login-admin", api.loginAdmin);
 router.post("/reset-password", api.resetPassword);
 
 router.put("/upload-image/:userId", upload, jwtAuth, api.uploadImage);

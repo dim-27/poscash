@@ -6,6 +6,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form"
+import PropTypes from "prop-types"
 
 const FormFieldCard = ({ name, label, type, form }) => {
   return (
@@ -23,6 +24,13 @@ const FormFieldCard = ({ name, label, type, form }) => {
       )}
     />
   )
+}
+
+FormFieldCard.propTypes = {
+  name: PropTypes.any.isRequired,
+  label: PropTypes.any.isRequired,
+  type: PropTypes.any.isRequired,
+  form: PropTypes.any.isRequired,
 }
 
 export default FormFieldCard

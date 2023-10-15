@@ -4,6 +4,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import Form from "./ProductForm"
+import PropTypes from "prop-types"
 
 const ManageProduct = ({ product, action }) => {
   return (
@@ -23,6 +24,10 @@ const ManageProduct = ({ product, action }) => {
       </div>
     </div>
   )
+}
+
+ManageProduct.propTypes = {
+  action: PropTypes.any.isRequired,
 }
 
 export default ManageProduct

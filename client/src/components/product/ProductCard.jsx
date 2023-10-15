@@ -25,9 +25,9 @@ const ProductCard = ({ product, role }) => {
   }
 
   return (
-    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 p-2 rounded-lg relative w-72">
+    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 p-2 rounded-2xl relative w-72 shadow-xl">
       <div
-        className="h-40 w-full bg-gray-300 rounded-lg overflow-hidden"
+        className="h-40 w-full bg-gray-300 rounded-xl overflow-hidden"
         style={{
           display: "flex",
           alignItems: "center",
@@ -36,7 +36,7 @@ const ProductCard = ({ product, role }) => {
       >
         <img src={product.image_url} alt={product.name} />
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center pl-1">
         <div className="flex flex-col items-start">
           <span className="text-lg text-slate-50">{product.name}</span>
           <span className="text-white font-bold">
@@ -47,7 +47,7 @@ const ProductCard = ({ product, role }) => {
           <div className="flex gap-2">
             <Dialog>
               <DialogTrigger>
-                <div className="p-2 group rounded-full bg-red-400 cursor-pointer items-center">
+                <div className="p-2 group rounded-full bg-red-600 cursor-pointer items-center">
                   <div className="group-hover:-translate-y-[1px]">
                     <Trash />
                   </div>

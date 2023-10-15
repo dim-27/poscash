@@ -1,4 +1,5 @@
 import { Utensils, Pizza, GlassWater, IceCream2 } from "lucide-react"
+import PropTypes from "prop-types"
 
 const Category = ({ category }) => {
   return (
@@ -21,6 +22,10 @@ const Category = ({ category }) => {
       </div>
     </div>
   )
+}
+
+Category.propTypes = {
+  category: PropTypes.any,
 }
 
 export default Category

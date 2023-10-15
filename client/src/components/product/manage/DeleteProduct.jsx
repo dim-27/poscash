@@ -9,6 +9,7 @@ import { deleteAPI } from "@/repositories/api"
 import { decryptAES } from "@/utils/crypto"
 import { useContext } from "react"
 import { AuthContext } from "@/components/auth/AuthContext"
+import PropTypes from "prop-types"
 
 const DeleteProduct = ({ product }) => {
   const { token } = useContext(AuthContext)
@@ -17,6 +18,9 @@ const DeleteProduct = ({ product }) => {
     mutationFn: () => {
       const productId = product.id
       return deleteAPI(`product/${productId}`, refineToken)
+    },
+    onSuccess: () => {
+      location.reload()
     },
   })
 
@@ -46,6 +50,10 @@ const DeleteProduct = ({ product }) => {
       </span>
     </>
   )
+}
+
+DeleteProduct.propTypes = {
+  product: PropTypes.any,
 }
 
 export default DeleteProduct

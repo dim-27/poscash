@@ -46,7 +46,7 @@ const ProductList = () => {
 
   return (
     <div className="h-full flex flex-col justify-between">
-      <div className="overflow-auto h-[600px] p-4">
+      <div className="overflow-auto h-[600px] py-4 px-8">
         <div className="grid grid-cols-4 gap-2">
           {products.map((product, i) => (
             <ProductCard key={i} product={product} role={role} />
@@ -54,7 +54,7 @@ const ProductList = () => {
           {role === 1 && (
             <Dialog>
               <DialogTrigger>
-                <div className="flex bg-gray-400 p-2 rounded-lg relative w-72 h-full text-8xl justify-center items-center hover:bg-gray-500 opacity-70">
+                <div className="flex bg-gray-400 p-2 rounded-2xl relative w-72 h-full text-8xl justify-center items-center hover:bg-gray-500 shadow-xl opacity-70">
                   +
                 </div>
               </DialogTrigger>

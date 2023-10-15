@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query"
 import FormFieldCard from "./FormFieldCard"
 // import { Toast } from "@/components/ui/toast"
 import { postAPI, putAPI } from "@/repositories/api"
+import PropTypes from "prop-types"
 
 const RegisterProduct = ({ action, product }) => {
   const initForm = {
@@ -30,6 +31,9 @@ const RegisterProduct = ({ action, product }) => {
         const productId = product.id
         return putAPI(`product/${productId}`, data)
       }
+    },
+    onSuccess: () => {
+      location.reload()
     },
   })
 
@@ -101,4 +105,10 @@ const RegisterProduct = ({ action, product }) => {
     </Form>
   )
 }
+
+RegisterProduct.propTypes = {
+  action: PropTypes.any.isRequired,
+  product: PropTypes.any,
+}
+
 export default RegisterProduct

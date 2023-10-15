@@ -9,7 +9,9 @@ const App = () => {
     <Fragment>
       <div className="h-screen">
         <Header />
-        <Outlet />
+        <div className="h-[92vh]">
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </Fragment>

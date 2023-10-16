@@ -14,6 +14,8 @@ const Profile = lazy(() => import("../pages/dashboard/Profile"));
 const Sales = lazy(() => import("../pages/dashboard/Sales"));
 const Report = lazy(() => import("../pages/dashboard/Report"));
 const History = lazy(() => import("../pages/dashboard/History"));
+const SendMail = lazy(() => import("../components/auth/SendMail"));
+const ResetPassword = lazy(() => import("../components/auth/ResetPassword"));
 
 const AppWrapper = () => {
   return (
@@ -22,10 +24,14 @@ const AppWrapper = () => {
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="" element={<Home />} />
+
             <Route path="login" element={<LoginAs />} />
             <Route path="login-cashier" element={<LoginCashier />} />
             <Route path="login-admin" element={<LoginAdmin />} />
             <Route path="register-cashier" element={<RegisterCashier />} />
+
+            <Route path="send-email" element={<SendMail />} />
+            <Route path="reset-password" element={<ResetPassword />} />
 
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="profile" element={<Profile />} />

@@ -7,30 +7,28 @@ import { useForm } from "react-hook-form";
 import { FormMessage } from "@/components/ui/form";
 import { Loader2, ArrowLeft } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { loginSchema } from "@/utils/schema";
+import { sendMailSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
-import { AuthContext } from "@/components/auth/AuthContext";
+import { postAPI } from "@/repositories/api";
+import { useToast } from "../ui/use-toast";
 
-const LoginCashier = () => {
+const SendMail = () => {
   const navigate = useNavigate();
-  const { loginCashier } = useContext(AuthContext);
+  const { toast } = useToast();
   const initForm = {
     email: "",
-    password: "",
   };
   const form = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(sendMailSchema),
     defaultValues: initForm,
   });
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      return await loginCashier(data);
+      return postAPI("user/reset-password/request", data);
     },
   });
 
@@ -44,7 +42,19 @@ const LoginCashier = () => {
     if (form.formState.isSubmitSuccessful) {
       form.reset(initForm);
     }
-  }, [form]);
+    if (mutation.isSuccess) {
+      toast({
+        title: "Send Email Success",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else if (mutation.isError) {
+      toast({
+        title: "Send Email Failed",
+      });
+    }
+  }, [form, mutation.isSuccess, mutation.isError]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
@@ -71,40 +81,21 @@ const LoginCashier = () => {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="password">Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" id="password" placeholder="******" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="flex justify-end">
-                  <Link className="text-sm text-blue-700" to="/send-email">
-                    forgot password
-                  </Link>
-                </div>
-
                 <div className="flex justify-center items-center">
                   <Button
                     className="w-32 text-xl bg-red-500 rounded-lg hover:bg-red-400 ease-in-out duration-300"
                     type="submit"
+                    onClick={() => {
+                      // if (mutation.isSuccess) {
+                      //   toast({
+                      //     title: "Success Send Email",
+                      //   });
+                      // }
+                    }}
                   >
                     {mutation.isLoading && <Loader2 className={`animate-spin w-4 h-4`} />}
-                    {mutation.isLoading ? "login..." : "Login"}
+                    {mutation.isLoading ? "send mail..." : "Send Mail"}
                   </Button>
-                </div>
-                <div className="flex items-center justify-center">
-                  <FormLabel>{`Don't have an account yet`}</FormLabel>
-                  <Link className="ms-2 font-light text-blue-700 text-sm" to="/register-cashier">
-                    here
-                  </Link>
                 </div>
               </div>
             </div>
@@ -114,4 +105,4 @@ const LoginCashier = () => {
     </div>
   );
 };
-export default LoginCashier;
+export default SendMail;

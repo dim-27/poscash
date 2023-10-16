@@ -6,13 +6,13 @@ const keys = process.env.CRYPTO_KEY;
 const iv = cryptoJS.enc.Utf8.parse(ivs);
 const key = cryptoJS.enc.Utf8.parse(keys);
 
-const encryptAES = (params) => {
+const encryptAES = async (params) => {
   const ecrypted = cryptoJS.AES.encrypt(params, key, { iv: iv });
   const result = encode(ecrypted.toString());
   return result;
 };
 
-const decryptAES = (params) => {
+const decryptAES = async (params) => {
   const decoded = decode(params);
   const decrypt = cryptoJS.AES.decrypt(decoded.toString(), key, {
     iv: iv,

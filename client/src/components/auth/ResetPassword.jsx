@@ -1,37 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormLabel, FormItem, FormField } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { FormMessage } from "@/components/ui/form";
-import { Loader2, ArrowLeft, EyeIcon, EyeOff } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { EyeOff, EyeIcon } from "lucide-react";
 
-import { useNavigate } from "react-router-dom";
-import { registerSchema } from "@/utils/schema";
+import { FormMessage } from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { resetPasswordSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useMutation } from "@tanstack/react-query";
 import { postAPI } from "@/repositories/api";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../ui/use-toast";
 
-const RegisterCashier = () => {
+const ResetPassword = () => {
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const userId = searchParams.get("userId");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const { toast } = useToast();
   const navigate = useNavigate();
+
   const initForm = {
-    fullname: "",
-    email: "",
-    password: "",
-    roleId: 2,
+    userId: userId,
+    token: token,
+    newPassword: "",
+    confirmPassword: "",
   };
 
   const form = useForm({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: initForm,
   });
 
   const mutation = useMutation({
-    mutationFn: async (register) => {
-      return postAPI("user/register-cashier", register);
+    mutationFn: async (data) => {
+      return postAPI("user/reset-password", data);
     },
   });
 
@@ -45,60 +54,38 @@ const RegisterCashier = () => {
     if (form.formState.isSubmitSuccessful) {
       form.reset(initForm);
     }
-  }, [form]);
-
-  if (mutation.isSuccess) return navigate("/login-cashier");
+    if (mutation.isSuccess) {
+      toast({
+        title: "Reset Password Success",
+      });
+      setTimeout(() => {
+        navigate("/login-cashier");
+      }, 3000);
+    } else if (mutation.isError) {
+      toast({
+        title: "Reset Password Failed",
+      });
+    }
+  }, [form, mutation.isSuccess, mutation.isError]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-1/2">
-        <span className="flex items-center gap-2 mb-6">
-          <ArrowLeft className="w-6 h-6" onClick={() => navigate("/register")} />
-          <Label className="font-bold text-sm">Back</Label>
-        </span>
         <Form {...form}>
           <form action="" onSubmit={form.handleSubmit(onSubmit, (err) => console.log(err))}>
             <div className="flex gap-4 w-full">
               <div className="w-full space-y-4">
                 <FormField
                   control={form.control}
-                  name="fullname"
+                  name="newPassword"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="fullname">Full Name</FormLabel>
-                      <FormControl>
-                        <Input type="text" id="fullname" placeholder="fullname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="email">Emaill</FormLabel>
-                      <FormControl>
-                        <Input type="email" id="email" placeholder="example@mail.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="newPassword">New Password</FormLabel>
                       <FormControl>
                         <FormItem className="flex relative">
                           <Input
                             type={showPassword ? "text" : "password"}
-                            id="password"
+                            id="newPassword"
                             placeholder="******"
                             {...field}
                           />
@@ -112,21 +99,38 @@ const RegisterCashier = () => {
                   )}
                 />
 
-                <div className="flex justify-center">
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-3">
+                      <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+                      <FormControl>
+                        <FormItem className="flex relative">
+                          <Input
+                            type={showPassword2 ? "text" : "password"}
+                            id="confirmPassword"
+                            placeholder="******"
+                            {...field}
+                          />
+                          <FormLabel className="absolute right-0 mr-2" onClick={() => setShowPassword2(!showPassword2)}>
+                            {showPassword2 ? <EyeIcon /> : <EyeOff />}
+                          </FormLabel>
+                        </FormItem>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-center items-center">
                   <Button
                     className="w-32 text-xl bg-red-500 rounded-lg hover:bg-red-400 ease-in-out duration-300"
                     type="submit"
                   >
                     {mutation.isLoading && <Loader2 className={`animate-spin w-4 h-4`} />}
-                    {mutation.isLoading ? "register..." : "Register"}
+                    {mutation.isLoading ? "submit..." : "Submit"}
                   </Button>
-                </div>
-
-                <div className="flex justify-center items-center">
-                  <FormLabel>Already have an account</FormLabel>
-                  <Link className="ms-2 font-light text-blue-700 text-sm" to="/login-cashier">
-                    here
-                  </Link>
                 </div>
               </div>
             </div>
@@ -136,4 +140,4 @@ const RegisterCashier = () => {
     </div>
   );
 };
-export default RegisterCashier;
+export default ResetPassword;

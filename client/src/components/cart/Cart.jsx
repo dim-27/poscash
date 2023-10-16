@@ -1,5 +1,5 @@
 import { getAPI } from "@/repositories/api";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
@@ -7,21 +7,42 @@ import { Button } from "../ui/button";
 import CartItem from "./CartItem";
 import { postAPI } from "@/repositories/api";
 import { FormatToIDR } from "@/lib/utils";
+import { useToast } from "../ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
 const Cart = () => {
+  const toast = useToast();
   const { userId } = useContext(AuthContext);
-  const { data: cart, isFetched } = useQuery(
-    ["cart"],
-    async () => {
-      const res = await getAPI(`cart/user/${userId}}`);
-      return res.data;
+  const {
+    data: cart,
+    isFetched,
+    refetch,
+  } = useQuery(["cart"], async () => {
+    const res = await getAPI(`cart/user/${userId}}`);
+    return res.data;
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      postAPI("order", data);
     },
-    { refetchInterval: 1000 }
-  );
+  });
 
   const checkout = () => {
-    postAPI("order", { userId: userId });
+    mutation.mutate({ userId: userId });
   };
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      toast({
+        title: "Checkout Success",
+      });
+    } else if (mutation.isError) {
+      toast({
+        title: "Checkout Failed",
+      });
+    }
+  }, [mutation.isSuccess, mutation.isError, toast]);
 
   return (
     <div className="px-4 h-screen">
@@ -44,7 +65,10 @@ const Cart = () => {
 
         <Button
           className={`${cart ? `` : `btn-disabled`} mt-4  bg-green-500 hover:bg-green-400 ease-in-out duration-300 `}
-          onClick={checkout}
+          onClick={() => {
+            checkout;
+            refetch;
+          }}
         >
           Checkout
         </Button>

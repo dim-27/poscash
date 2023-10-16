@@ -11,7 +11,8 @@ router.get("/:userId", api.getUserById);
 router.post("/register-cashier", api.register);
 router.post("/login-cashier", api.loginCashier);
 router.post("/login-admin", api.loginAdmin);
-router.post("/reset-password", api.resetPassword);
+router.post("/reset-password", api.updateResetPassword);
+router.post("/reset-password/request", api.resetPassword);
 
 router.put("/upload-image/:userId", upload, jwtAuth, api.uploadImage);
 router.put("/update/:userId", jwtAuth, api.updateUser);

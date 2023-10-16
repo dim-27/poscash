@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
@@ -12,6 +13,7 @@ const App = () => {
         <div className="mx-auto pt-10">
           <div className="w-4/5 mx-auto">
             <Outlet />
+            <Toaster />
           </div>
         </div>
       </div>

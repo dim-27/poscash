@@ -4,13 +4,14 @@ import {
   LayoutDashboard,
   LogOut,
   Search,
-  Wallet,
   ShoppingCart,
   UserCircle,
+  Newspaper,
+  BarChart2,
+  History,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { FormatToIDR } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 
 import {
@@ -29,7 +30,7 @@ import { useContext } from "react"
 import { AuthContext } from "@/components/auth/AuthContext"
 
 const UserProfile = () => {
-  const { userId, logout } = useContext(AuthContext)
+  const { userId, logout, isAdmin } = useContext(AuthContext)
   const { data: user, isFetched } = useQuery(
     ["user-profile"],
     async () => {
@@ -43,10 +44,7 @@ const UserProfile = () => {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="ring-2 ring-red-500">
-            <AvatarImage
-              className="object-cover"
-              src={user.image_url ? user.image_url : ""}
-            />
+            <AvatarImage className="object-cover" src={user.image_url} />
             <AvatarFallback>A</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -54,7 +52,7 @@ const UserProfile = () => {
           <DropdownMenuLabel className="">
             <div className="flex gap-2 items-center">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={user.image_url ? user.image_url : ""} />
+                <AvatarImage src={user.image_url} />
                 <AvatarFallback>A</AvatarFallback>
               </Avatar>
               <div>
@@ -65,20 +63,48 @@ const UserProfile = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="flex gap-2 items-center">
-            <Link to={`/profile`} className="flex items-center gap-2">
+            <Link to={`/dashboard/profile`} className="flex items-center gap-2">
               <UserCircle className="w-4 h-4" />
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
+
+          {isAdmin && (
+            <div>
+              <DropdownMenuItem className="flex gap-2 items-center">
+                <Link
+                  to={`/dashboard/sales`}
+                  className="flex items-center gap-2"
+                >
+                  <BarChart2 className="w-4 h-4" />
+                  <span>Sales</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex gap-2 items-center">
+                <Link
+                  to={`/dashboard/report`}
+                  className="flex items-center gap-2"
+                >
+                  <Newspaper className="w-4 h-4" />
+                  <span>Report</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex gap-2 items-center">
+                <Link
+                  to={`/dashboard/history`}
+                  className="flex items-center gap-2"
+                >
+                  <History className="w-4 h-4" />
+                  <span>History</span>
+                </Link>
+              </DropdownMenuItem>
+            </div>
+          )}
           <DropdownMenuItem className="flex gap-2 items-center">
-            <Link to={`/dashboard`} className="flex items-center gap-2">
+            <Link to={`/dashboard/profile`} className="flex items-center gap-2">
               <LayoutDashboard className="w-4 h-4" />
               <span>Dashboard</span>
             </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex gap-2 items-center">
-            <Wallet className="w-4 h-4" />
-            <span>{FormatToIDR(10)}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="flex gap-2 items-center mt-2">
@@ -108,8 +134,9 @@ const Header = () => {
       document.documentElement.classList.remove(mode)
     }
   }, [darkMode])
+
   return (
-    <nav className="z-20 w-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between  gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
+    <nav className="z-20 w-full h-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
       <div className="flex gap-8 items-center">
         <Link
           className="text-xl text-red-500 font-bold leading-4 hidden md:block text-primary dark:text-foreground"
@@ -142,7 +169,7 @@ const Header = () => {
                 Login
               </Link>
               <Link
-                to="/register"
+                to="/register-cashier"
                 className="w-24 text-center text-white p-2 px-4 bg-red-500 hover:bg-red-400 rounded-full"
               >
                 Register

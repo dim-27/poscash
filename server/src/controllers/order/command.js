@@ -18,7 +18,7 @@ export default class CommandOrder {
     this.cart = new Carts();
   }
 
-  async addOrder(payload) {
+  async transaction(payload) {
     const { userId } = payload;
     const data = {
       sub_total: 0,
@@ -35,6 +35,7 @@ export default class CommandOrder {
         total_price: item.dataValues.total_price,
         productId: item.dataValues.productId,
         orderId: order.dataValues.id,
+        date: Date.now(),
       };
       return transformData;
     });
@@ -46,6 +47,28 @@ export default class CommandOrder {
     await this.orderItem.insertManyOrderItem(itemList);
     await this.order.updateOneOrder(updateData, params);
     await this.cart.deleteOneCart(paramsCart);
+  }
+
+  async addOrder(payload) {
+    const { userId } = payload;
+    await this.order.insertOneOrder({ userId: userId });
+  }
+
+  async addOrderItem(payload) {
+    const { qty, date, productId, orderId } = payload;
+    const getProduct = await this.queryProduct.getProductById(productId);
+    const { name, price } = getProduct.dataValues;
+    const totalPrice = qty * price;
+    const data = {
+      name: name,
+      qty: qty,
+      price: price,
+      total_price: totalPrice,
+      date: date,
+      productId: productId,
+      orderId: orderId,
+    };
+    await this.orderItem.insertOneOrderItem(data);
   }
 
   async deleteOrder(orderId) {

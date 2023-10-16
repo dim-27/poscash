@@ -7,7 +7,7 @@ OrderItem.belongsTo(Product);
 
 export default class OrderItems {
   async findManyOrderItem(params) {
-    const result = await OrderItem.findAll(params);
+    const result = await OrderItem.findAndCountAll(params);
     return result;
   }
 

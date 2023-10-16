@@ -8,7 +8,8 @@ const OrderItem = sequelize.define(
     name: { type: DataTypes.STRING, allowNull: false },
     price: { type: DataTypes.INTEGER },
     qty: { type: DataTypes.INTEGER },
-    total_price: { type: DataTypes.TEXT },
+    total_price: { type: DataTypes.INTEGER },
+    date: { type: DataTypes.BIGINT },
   },
   { timestamps: false }
 );

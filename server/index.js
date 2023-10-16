@@ -12,9 +12,9 @@ import roleRoutes from "./src/routes/role.js";
 import productRoutes from "./src/routes/product.js";
 import cartRoutes from "./src/routes/cart.js";
 import categoryRoutes from "./src/routes/category.js";
-import categoryProductRoutes from "./src/routes/category-product.js";
 import orderRoutes from "./src/routes/order.js";
 import adminRoutes from "./src/routes/admin.js";
+import initRoutes from "./src/routes/init.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,9 +33,9 @@ app.use("/api/role", roleRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/category", categoryRoutes);
-app.use("/api/category-product", categoryProductRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/init", initRoutes);
 
 app.use(errorHandler);
 app.use(notFound);

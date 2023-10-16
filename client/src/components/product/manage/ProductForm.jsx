@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
@@ -8,10 +8,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import FormFieldCard from "./FormFieldCard"
 // import { Toast } from "@/components/ui/toast"
-import { postAPI, putAPI } from "@/repositories/api"
+import { getAPI, postAPI, putAPI } from "@/repositories/api"
+import { useQuery } from "@tanstack/react-query"
 import PropTypes from "prop-types"
 
 const RegisterProduct = ({ action, product }) => {
+  const { data: categories, isFetched } = useQuery(
+    ["form-categories"],
+    async () => {
+      const res = await getAPI("category")
+      return res.data
+    }
+  )
+
+  const [selectedCategory, setSelectedCategory] = useState(
+    product ? product.categoryId : ""
+  )
+
   const initForm = {
     name: product ? product.name : "",
     description: product ? product.description : "",
@@ -40,6 +53,7 @@ const RegisterProduct = ({ action, product }) => {
   const onSubmit = (values) => {
     mutation.mutate({
       ...values,
+      categoryId: selectedCategory,
     })
   }
 
@@ -82,6 +96,23 @@ const RegisterProduct = ({ action, product }) => {
             type="text"
             form={form}
           />
+
+          <select
+            id="category"
+            name="category"
+            className="w-full my-4 px-2 py-3 border rounded-lg"
+            {...form.register("category")}
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Select a category</option>
+            {isFetched &&
+              categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.category}
+                </option>
+              ))}
+          </select>
 
           <div className="flex justify-center gap-2">
             <Button

@@ -31,7 +31,7 @@ export default class CommandUser {
     mailer.verifyEmail(link, email);
   }
 
-  async login(payload) {
+  async loginCashier(payload) {
     const { email, password } = payload;
     const checkUser = await this.query.getUserByEmail(email);
     if (checkUser === null) throw new AppError("Email not Found", 404);
@@ -39,10 +39,28 @@ export default class CommandUser {
     const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
     if (!checkPwd) throw new AppError("Password not Match", 401);
     const data = { id: dataUser.id };
-    const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1d" });
     const token = crypto.encryptAES(key);
     const userData = {
       id: checkUser.id,
+      token,
+    };
+    return userData;
+  }
+
+  async loginAdmin(payload) {
+    const { email, password } = payload;
+    const checkUser = await this.query.getUserByEmail(email);
+    if (checkUser === null) throw new AppError("Email not Found", 404);
+    const dataUser = checkUser.dataValues;
+    const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
+    if (!checkPwd) throw new AppError("Password not Match", 401);
+    const data = { id: dataUser.id };
+    const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1d" });
+    const token = crypto.encryptAES(key);
+    const userData = {
+      id: dataUser.id,
+      role: dataUser.roleId,
       token,
     };
     return userData;

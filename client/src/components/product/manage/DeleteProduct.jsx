@@ -32,10 +32,11 @@ const DeleteProduct = ({ product }) => {
       <DialogHeader>
         <DialogTitle>Are you sure you want to delete this product?</DialogTitle>
         <DialogDescription>
-          You are about to delete product Id : {product.id}
+          This action cannot be undone. This will permanently delete your
+          product {product.id} and remove your product from our servers.
         </DialogDescription>
       </DialogHeader>
-      <span className="flex justify-center gap-4">
+      <span className="flex justify-center gap-10 mt-2">
         <div
           className="text-2xl w-20 py-2 bg-red-500 hover:bg-red-600 rounded-full text-center cursor-pointer"
           onClick={onClick}

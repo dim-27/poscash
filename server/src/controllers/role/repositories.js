@@ -1,7 +1,9 @@
 import Role from "../../models/role.js";
 import User from "../../models/user.js";
+import Admin from "../../models/admin.js"
 
 Role.hasMany(User);
+Role.hasMany(Admin);
 
 export default class Roles {
   async findManyRole(params) {
@@ -16,6 +18,11 @@ export default class Roles {
 
   async insertOneRole(data) {
     const result = await Role.create(data);
+    return result;
+  }
+
+  async insertManyRole(data) {
+    const result = await Role.bulkCreate(data);
     return result;
   }
 

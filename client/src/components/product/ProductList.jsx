@@ -54,7 +54,7 @@ const ProductList = () => {
           {role === 1 && (
             <Dialog>
               <DialogTrigger>
-                <div className="flex bg-gray-400 p-2 rounded-2xl relative w-72 h-full text-8xl justify-center items-center hover:bg-gray-500 shadow-xl opacity-70">
+                <div className="flex bg-gray-400 p-2 rounded-2xl relative w-72 h-[235px] text-8xl justify-center items-center hover:bg-gray-500 shadow-xl opacity-70">
                   +
                 </div>
               </DialogTrigger>

@@ -25,7 +25,7 @@ const ProductCard = ({ product, role }) => {
   }
 
   return (
-    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 p-2 rounded-2xl relative w-72 shadow-xl">
+    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 hover:bg-gray-600 p-2 rounded-2xl relative w-72 shadow-xl">
       <div
         className="h-40 w-full bg-gray-300 rounded-xl overflow-hidden"
         style={{

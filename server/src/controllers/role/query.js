@@ -5,7 +5,6 @@ export default class QueryRole {
   constructor() {
     this.role = new Roles();
   }
-
   async getRoles() {
     const params = {};
     const result = await this.role.findManyRole(params);

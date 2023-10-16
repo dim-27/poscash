@@ -5,6 +5,7 @@ const addProduct = joi.object({
   price: joi.string().required(),
   imageUrl: joi.string().required(),
   description: joi.string().required(),
+  categoryId: joi.string().required(),
 })
 
 const updateProduct = joi.object({

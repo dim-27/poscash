@@ -6,11 +6,11 @@ const Category = ({ category }) => {
     <div className="flex group text-center flex-col items-center mt-4 mx-2 cursor-pointer">
       <div className="h-14 px-4 border rounded-full grid place-content-center">
         <span className="flex transform transition-all duration-100 group-hover:-translate-y-[2px]">
-          {category === "Dessert" ? (
+          {category === "dessert" ? (
             <IceCream2 />
-          ) : category === "Foods" ? (
+          ) : category === "food" ? (
             <Pizza />
-          ) : category === "Drinks" ? (
+          ) : category === "drink" ? (
             <GlassWater />
           ) : (
             <Utensils />

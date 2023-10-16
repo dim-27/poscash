@@ -4,7 +4,6 @@ import Category from "./Category"
 import ProductList from "./ProductList"
 
 const Product = () => {
-  // const categories = ["All", "Promo", "Foods", "Drinks", "Dessert"];
   const { data: categories, isFetched } = useQuery(
     ["categories"],
     async () => {
@@ -20,7 +19,7 @@ const Product = () => {
         <Category category="All" />
         {isFetched &&
           categories.map((category, i) => (
-            <Category key={i} category={category.name} />
+            <Category key={i} category={category.category} />
           ))}
       </div>
       <div className="flex-grow overflow-hidden">

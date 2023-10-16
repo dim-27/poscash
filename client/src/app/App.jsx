@@ -8,7 +8,9 @@ const App = () => {
   return (
     <Fragment>
       <div className="h-screen">
-        <Header />
+        <div className="h-[8vh]">
+          <Header />
+        </div>
         <div className="h-[92vh]">
           <Outlet />
         </div>

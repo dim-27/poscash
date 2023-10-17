@@ -14,6 +14,7 @@ const Profile = lazy(() => import("../pages/dashboard/Profile"));
 const Sales = lazy(() => import("../pages/dashboard/Sales"));
 const Report = lazy(() => import("../pages/dashboard/Report"));
 const History = lazy(() => import("../pages/dashboard/History"));
+const Cashier = lazy(() => import("../pages/dashboard/Cashier"))
 
 const AppWrapper = () => {
   return (
@@ -32,6 +33,7 @@ const AppWrapper = () => {
               <Route path="sales" element={<Sales />} />
               <Route path="report" element={<Report />} />
               <Route path="history" element={<History />} />
+              <Route path="cashier" element={<Cashier/>} />
             </Route>
           </Route>
         </Routes>

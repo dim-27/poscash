@@ -1,6 +1,6 @@
 // import { toggleSearch } from "@/features/slice/eventSlice";
 import { Switch } from "@/components/ui/switch";
-import { LayoutDashboard, LogOut, Search, ShoppingCart, UserCircle, Newspaper, BarChart2, History } from "lucide-react";
+import { LayoutDashboard, LogOut, Search, ShoppingCart, UserCircle, Newspaper, BarChart2, History, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -78,6 +78,12 @@ const UserProfile = () => {
                 <Link to={`/dashboard/history`} className="flex items-center gap-2">
                   <History className="w-4 h-4" />
                   <span>History</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex gap-2 items-center">
+                <Link to={`/dashboard/cashier`} className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4" />
+                  <span>Cashier</span>
                 </Link>
               </DropdownMenuItem>
             </div>

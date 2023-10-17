@@ -14,7 +14,9 @@ router.post("/login-admin", api.loginAdmin);
 router.post("/reset-password", api.resetPassword);
 
 router.put("/upload-image/:userId", upload, jwtAuth, api.uploadImage);
-router.put("/update/:userId", jwtAuth, api.updateUser);
+router.put("/update/:userId", jwtAuth, api.updateUser, (req,res) => {
+  res.json({id})
+});
 
 router.delete("/:userId", jwtAuth, api.deleteUser);
 

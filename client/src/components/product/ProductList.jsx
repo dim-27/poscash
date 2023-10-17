@@ -101,7 +101,7 @@ const ProductList = ({ value, data }) => {
           {paginatedProducts.map((product, i) => (
             <ProductCard key={i} product={product} role={role} />
           ))}
-          {role !== "1" && products.length === 0 && (
+          {role !== 1 && products.length === 0 && (
             <div className="text-xl ml-4">No Products</div>
           )}
           {role === 1 && (

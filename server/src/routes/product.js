@@ -6,6 +6,8 @@ const router = Router()
 
 router.get("/", api.getProducts)
 router.get("/:productId", api.getProductById)
+router.get("/category/:categoryId", api.getAllProductByCategoryId)
+router.get("/product-name/:name", api.getProductByName)
 
 router.post("/", api.addProduct)
 router.put("/:productId", api.updateProduct)

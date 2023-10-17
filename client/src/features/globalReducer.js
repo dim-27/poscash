@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   isSearch: false,
+  searchQuery: "",
   quantity: 0,
 }
 
@@ -15,6 +16,9 @@ export const productSlice = createSlice({
       }
       state.isSearch = action.payload
     },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload
+    },
     incrementQuantity: (state) => {
       state.quantity += 1
     },
@@ -27,6 +31,13 @@ export const productSlice = createSlice({
 })
 
 export const selectQuantity = (state) => state.product.quantity
-export const { toggleSearch, incrementQuantity, decrementQuantity } =
-  productSlice.actions
+export const selectIsSearch = (state) => state.product.isSearch
+export const selectSearchQuery = (state) => state.product.searchQuery
+
+export const {
+  toggleSearch,
+  setSearchQuery,
+  incrementQuantity,
+  decrementQuantity,
+} = productSlice.actions
 export default productSlice.reducer

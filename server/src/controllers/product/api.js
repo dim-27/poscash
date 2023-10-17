@@ -18,6 +18,18 @@ const getProductById = tryCatch(async (req, res) => {
   return utils.responseSuccess(res, response)
 })
 
+const getAllProductByCategoryId = tryCatch(async (req, res) => {
+  const params = req.params.categoryId
+  const response = await query.getAllProductByCategoryId(params)
+  return utils.responseSuccess(res, response)
+})
+
+const getProductByName = tryCatch(async (req, res) => {
+  const params = req.params.name
+  const response = await query.getProductByName(params)
+  return utils.responseSuccess(res, response)
+})
+
 const addProduct = tryCatch(async (req, res) => {
   const payload = req.body
   console.log(payload)
@@ -42,6 +54,8 @@ const deleteProduct = tryCatch(async (req, res) => {
 export default {
   getProducts,
   getProductById,
+  getAllProductByCategoryId,
+  getProductByName,
   addProduct,
   updateProduct,
   deleteProduct,

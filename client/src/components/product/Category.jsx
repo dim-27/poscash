@@ -5,7 +5,7 @@ const Category = ({ category }) => {
   return (
     <div className="flex group text-center flex-col items-center mt-4 mx-2 cursor-pointer">
       <div className="h-14 px-4 border rounded-full grid place-content-center">
-        <span className="flex transform transition-all duration-100 group-hover:-translate-y-[2px]">
+        <span className="flex transform transition-all duration-100 group-hover:-translate-y-[2px] ">
           {category === "dessert" ? (
             <IceCream2 />
           ) : category === "food" ? (
@@ -25,7 +25,9 @@ const Category = ({ category }) => {
 }
 
 Category.propTypes = {
-  category: PropTypes.any,
+  category: PropTypes.string,
+  categoryId: PropTypes.number,
+  onClick: PropTypes.func,
 }
 
 export default Category

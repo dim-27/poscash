@@ -1,14 +1,19 @@
 import { useState, useContext } from "react"
+import { selectIsSearch, selectSearchQuery } from "@/features/globalReducer"
+import { useSelector } from "react-redux"
 import { useQuery } from "@tanstack/react-query"
 import { getAPI } from "@/repositories/api"
 import { AuthContext } from "@/components/auth/AuthContext"
-import ProductCard from "./ProductCard"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { TabsContent } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { ListRestart, CircleDollarSign, MoveUp, MoveDown } from "lucide-react"
+import ProductCard from "./ProductCard"
 import ManageProduct from "./manage/ManageProduct"
 
 const productsPerPage = 10
 
-const ProductList = () => {
+const TabContentEvent = ({ value, data }) => {
   const { userId } = useContext(AuthContext)
   const { data: user, isFetched: userFetched } = useQuery(
     ["user-profile"],
@@ -19,38 +24,84 @@ const ProductList = () => {
     // { refetchInterval: 5000 }
   )
   const role = userFetched && user?.roleId
-  const { data, isFetched } = useQuery(
-    ["products"],
-    async () => {
-      const res = await getAPI(`product`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
-
   const [currentPage, setCurrentPage] = useState(1)
 
-  const totalProducts = isFetched && data.length
+  const searchQuery = useSelector(selectSearchQuery)
+  const isSearch = useSelector(selectIsSearch)
+  const totalProducts = data.length
   const totalPages = Math.ceil(totalProducts / productsPerPage)
 
-  const products = isFetched
-    ? data.slice(
-        (currentPage - 1) * productsPerPage,
-        currentPage * productsPerPage
-      )
+  const [sortName, setSortName] = useState("asc")
+  const [sortPrice, setSortPrice] = useState("asc")
+
+  const products = data
+    ? isSearch
+      ? data.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : data
     : []
 
+  const handleSort = (sortBy) => {
+    if (sortBy === "name") {
+      setSortName(sortName === "asc" ? "desc" : "asc")
+      products.sort((a, b) => {
+        if (sortName === "asc") {
+          return a.name.localeCompare(b.name)
+        } else {
+          return b.name.localeCompare(a.name)
+        }
+      })
+    } else if (sortBy === "price") {
+      setSortPrice(sortPrice === "asc" ? "desc" : "asc")
+      products.sort((a, b) => {
+        if (sortPrice === "asc") {
+          return a.price - b.price
+        } else {
+          return b.price - a.price
+        }
+      })
+    }
+  }
+
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  )
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage)
   }
 
   return (
-    <div className="h-full flex flex-col justify-between">
-      <div className="overflow-auto h-[600px] py-4 px-8">
+    <TabsContent value={value} className="p-4">
+      <span className="flex gap-2 ml-4 mb-4">
+        <Button
+          className="p-3 bg-gray-500 rounded-full"
+          onClick={() => location.reload}
+        >
+          <ListRestart />
+        </Button>
+        <Button
+          className="p-3 bg-gray-500 rounded-full"
+          onClick={() => handleSort("name")}
+        >
+          A-Z{" "}
+          {sortName === "asc" ? <MoveDown size={15} /> : <MoveUp size={15} />}
+        </Button>
+        <Button
+          className="p-3 bg-gray-500 rounded-full"
+          onClick={() => handleSort("price")}
+        >
+          <CircleDollarSign size={20} />
+          {sortPrice === "asc" ? <MoveDown size={15} /> : <MoveUp size={15} />}
+        </Button>
+      </span>
+      <div className="overflow-auto h-[600px] px-4">
         <div className="grid grid-cols-4 gap-2">
-          {products.map((product, i) => (
+          {paginatedProducts.map((product, i) => (
             <ProductCard key={i} product={product} role={role} />
           ))}
+          {products.length === 0 && <div className="text-xl">No Products</div>}
           {role === 1 && (
             <Dialog>
               <DialogTrigger>
@@ -65,7 +116,7 @@ const ProductList = () => {
           )}
         </div>
       </div>
-      <div className="flex justify-center p-4">
+      <div className="flex justify-center gap-2 p-4">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -102,8 +153,8 @@ const ProductList = () => {
           Next
         </button>
       </div>
-    </div>
+    </TabsContent>
   )
 }
 
-export default ProductList
+export default TabContentEvent

@@ -9,12 +9,12 @@ const App = () => {
   return (
     <Fragment>
       <div className="h-screen">
-        <Header />
-        <div className="mx-auto pt-10">
-          <div className="w-4/5 mx-auto">
-            <Outlet />
-            <Toaster />
-          </div>
+        <div className="h-[8vh]">
+          <Header />
+        </div>
+        <div className="h-[92vh]">
+          <Outlet />
+          <Toaster />
         </div>
       </div>
       <Footer />

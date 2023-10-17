@@ -13,7 +13,7 @@ export default class CommandUser {
   }
 
   async register(payload) {
-    const { fullname, email, password } = payload;
+    const { fullname, email, password, roleId } = payload;
     const pwd = await bcrypt.generateHash(password);
     const imageURL = `https://robohash.org/${fullname}`;
     const data = {
@@ -21,6 +21,7 @@ export default class CommandUser {
       email: email,
       password: pwd,
       image_url: imageURL,
+      roleId: roleId,
     };
     const checkUser = await this.query.getUserByEmail(email);
     if (checkUser !== null) throw new AppError("Email Already Exist", 403);

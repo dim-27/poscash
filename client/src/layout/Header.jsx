@@ -1,9 +1,18 @@
 // import { toggleSearch } from "@/features/slice/eventSlice";
-import { Switch } from "@/components/ui/switch";
-import { LayoutDashboard, LogOut, Search, ShoppingCart, UserCircle, Newspaper, BarChart2, History } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch"
+import {
+  LayoutDashboard,
+  LogOut,
+  Search,
+  ShoppingCart,
+  UserCircle,
+  Newspaper,
+  BarChart2,
+  History,
+} from "lucide-react"
+import { Link } from "react-router-dom"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
 
 import {
   DropdownMenu,
@@ -12,24 +21,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAPI } from "@/repositories/api";
-import { useContext } from "react";
-import { AuthContext } from "@/components/auth/AuthContext";
+import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { getAPI } from "@/repositories/api"
+import { useContext } from "react"
+import { AuthContext } from "@/components/auth/AuthContext"
 
 const UserProfile = () => {
-  const { userId, logout, isAdmin } = useContext(AuthContext);
+  const { userId, logout, isAdmin } = useContext(AuthContext)
   const { data: user, isFetched } = useQuery(
     ["user-profile"],
     async () => {
-      const res = await getAPI(`user/${userId}`);
-      return res.data;
+      const res = await getAPI(`user/${userId}`)
+      return res.data
     }
     // { refetchInterval: 5000 }
-  );
+  )
   return (
     isFetched && (
       <DropdownMenu>
@@ -63,19 +72,28 @@ const UserProfile = () => {
           {isAdmin && (
             <div>
               <DropdownMenuItem className="flex gap-2 items-center">
-                <Link to={`/dashboard/sales`} className="flex items-center gap-2">
+                <Link
+                  to={`/dashboard/sales`}
+                  className="flex items-center gap-2"
+                >
                   <BarChart2 className="w-4 h-4" />
                   <span>Sales</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-2 items-center">
-                <Link to={`/dashboard/report`} className="flex items-center gap-2">
+                <Link
+                  to={`/dashboard/report`}
+                  className="flex items-center gap-2"
+                >
                   <Newspaper className="w-4 h-4" />
                   <span>Report</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-2 items-center">
-                <Link to={`/dashboard/history`} className="flex items-center gap-2">
+                <Link
+                  to={`/dashboard/history`}
+                  className="flex items-center gap-2"
+                >
                   <History className="w-4 h-4" />
                   <span>History</span>
                 </Link>
@@ -96,29 +114,29 @@ const UserProfile = () => {
         </DropdownMenuContent>
       </DropdownMenu>
     )
-  );
-};
+  )
+}
 
 const Header = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const { isLogin } = useContext(AuthContext);
+  const [darkMode, setDarkMode] = useState(false)
+  const { isLogin } = useContext(AuthContext)
 
   useEffect(() => {
-    const mode = darkMode ? "dark" : "light";
-    localStorage.setItem("mode", mode);
-  }, [darkMode]);
+    const mode = darkMode ? "dark" : "light"
+    localStorage.setItem("mode", mode)
+  }, [darkMode])
 
   useEffect(() => {
-    const mode = localStorage.getItem("mode");
-    document.documentElement.classList.add(mode);
+    const mode = localStorage.getItem("mode")
+    document.documentElement.classList.add(mode)
 
     return () => {
-      document.documentElement.classList.remove(mode);
-    };
-  }, [darkMode]);
+      document.documentElement.classList.remove(mode)
+    }
+  }, [darkMode])
 
   return (
-    <nav className="z-20 w-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between  gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
+    <nav className="z-20 w-full h-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
       <div className="flex gap-8 items-center">
         <Link
           className="text-xl text-red-500 font-bold leading-4 hidden md:block text-primary dark:text-foreground"
@@ -133,7 +151,10 @@ const Header = () => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <Link to={`/${isLogin ? "cart" : "login"}`} className="flex items-center backdrop-blur-sm gap-4 px-4 py-2 ">
+        <Link
+          to={`/${isLogin ? "cart" : "login"}`}
+          className="flex items-center backdrop-blur-sm gap-4 px-4 py-2 "
+        >
           <ShoppingCart size={20} />
         </Link>
         <div className={`${isLogin && "p-1 rounded-md w-12 h-12 ml-8"}`}>
@@ -157,11 +178,15 @@ const Header = () => {
           )}
         </div>
         <div className="flex items-center space-x-2">
-          <Switch id="theme-mode" checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+          <Switch
+            id="theme-mode"
+            checked={darkMode}
+            onCheckedChange={() => setDarkMode(!darkMode)}
+          />
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

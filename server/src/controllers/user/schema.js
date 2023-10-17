@@ -8,6 +8,7 @@ const register = joi.object({
     .max(100)
     .required(),
   password: joi.string().min(6).max(16).required(),
+  roleId: joi.number(),
 });
 
 const login = joi.object({

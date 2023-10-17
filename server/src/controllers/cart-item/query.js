@@ -15,6 +15,7 @@ export default class QueryCartItem {
 
   async getCartItemById(cartItemId) {
     const params = { where: { id: cartItemId } };
+    console.log("params", params);
     const result = await this.cartItem.findOneCartItem(params);
     // if (result === null) throw new AppError("CartItem not Found", 404);
     return result;

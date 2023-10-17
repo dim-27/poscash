@@ -59,6 +59,12 @@ const resetPassword = tryCatch(async (req, res) => {
   return utils.responseSuccess(res, response);
 });
 
+const updateResetPassword = tryCatch(async (req, res) => {
+  const payload = req.body;
+  const response = await command.updateResetPassword(payload);
+  return utils.responseSuccess(res, response);
+});
+
 const uploadImage = tryCatch(async (req, res) => {
   const params = req.params.userId;
   const file = req.file;
@@ -80,6 +86,7 @@ export default {
   loginAdmin,
   updateUser,
   resetPassword,
+  updateResetPassword,
   uploadImage,
   deleteUser,
 };

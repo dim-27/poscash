@@ -53,7 +53,7 @@ const Product = () => {
       defaultValue="all"
       value={tab}
       onValueChange={setTab}
-      className="flex flex-col h-full space-y-4 pt-4"
+      className="flex flex-col h-full pt-4"
     >
       <TabsList className="flex gap-4 bg-inherit">
         <TabsTrigger

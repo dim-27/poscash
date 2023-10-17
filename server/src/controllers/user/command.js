@@ -13,7 +13,7 @@ export default class CommandUser {
   }
 
   async register(payload) {
-    const { fullname, email, password } = payload;
+    const { fullname, email, password, roleId } = payload;
     const pwd = await bcrypt.generateHash(password);
     const imageURL = `https://robohash.org/${fullname}`;
     const data = {
@@ -21,12 +21,13 @@ export default class CommandUser {
       email: email,
       password: pwd,
       image_url: imageURL,
+      roleId: roleId,
     };
     const checkUser = await this.query.getUserByEmail(email);
     if (checkUser !== null) throw new AppError("Email Already Exist", 403);
     const user = await this.user.insertOneUser(data);
     const token = jwt.sign({ id: user.dataValues.id }, process.env.SECRET_KEY);
-    const encrypted = crypto.encryptAES(token);
+    const encrypted = await crypto.encryptAES(token);
     const link = `${process.env.CLIENT_LINK}/verify-email?token=${encrypted}&userId=${user.dataValues.id}`;
     mailer.verifyEmail(link, email);
   }
@@ -40,7 +41,7 @@ export default class CommandUser {
     if (!checkPwd) throw new AppError("Password not Match", 401);
     const data = { id: dataUser.id };
     const key = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: "1d" });
-    const token = crypto.encryptAES(key);
+    const token = await crypto.encryptAES(key);
     const userData = {
       id: checkUser.id,
       token,
@@ -69,7 +70,6 @@ export default class CommandUser {
   async uploadImage(file, userId) {
     const params = { where: { id: userId } };
     const getUser = await this.query.getUserById(userId);
-    console.log(getUser);
     let updateData = {};
     const imageUrl = `http://localhost:8000/${file.filename}`;
     if (getUser.dataValues.image_url !== imageUrl) {
@@ -77,5 +77,35 @@ export default class CommandUser {
     }
 
     await this.user.updateOneUser(updateData, params);
+  }
+
+  async resetPassword(payload) {
+    const { email } = payload;
+    const getUser = await this.query.getUserByEmail(email);
+    if (getUser === null) throw new AppError("Email not Found", 404);
+    const token = await bcrypt.generateHash(String(getUser.dataValues.id));
+    const link = `${process.env.CLIENT_LINK}/reset-password?token=${token}&userId=${getUser.dataValues.id}`;
+    mailer.resetPassword(link, email);
+  }
+
+  async updateResetPassword(payload) {
+    const { newPassword, confirmPassword, token, userId } = payload;
+    const getUser = await this.query.getUserById(userId);
+    const params = { where: { id: userId } };
+    const userData = getUser.dataValues;
+
+    const validateToken = await bcrypt.compareHash(String(userData.id), token);
+    if (!validateToken) throw new AppError("Invalid Token", 403);
+
+    if (validateToken) {
+      if (newPassword !== confirmPassword) throw new AppError("Password not Match", 403);
+      if (newPassword || confirmPassword) {
+        if (newPassword === confirmPassword) {
+          const password = await bcrypt.generateHash(newPassword);
+          const updateData = { password: password };
+          await this.user.updateOneUser(updateData, params);
+        }
+      }
+    }
   }
 }

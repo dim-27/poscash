@@ -15,10 +15,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "@/components/auth/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginAdmin = () => {
   const navigate = useNavigate();
   const { loginAdmin } = useContext(AuthContext);
+  const toast = useToast();
   const initForm = {
     email: "",
     password: "",
@@ -44,7 +46,20 @@ const LoginAdmin = () => {
     if (form.formState.isSubmitSuccessful) {
       form.reset(initForm);
     }
-  }, [form]);
+    if (mutation.isSuccess) {
+      toast({
+        title: "Login Success",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else if (mutation.isError) {
+      toast({
+        title: "Login Failed",
+      });
+    }
+  }, [form, mutation.isSuccess, mutation.isError]);
+
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-1/2">
@@ -99,8 +114,7 @@ const LoginAdmin = () => {
                     {mutation.isLoading ? "login..." : "Login"}
                   </Button>
                 </div>
-                <div className="flex items-center justify-center">
-                </div>
+                <div className="flex items-center justify-center"></div>
               </div>
             </div>
           </form>
@@ -110,7 +124,3 @@ const LoginAdmin = () => {
   );
 };
 export default LoginAdmin;
-
-// Login.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };

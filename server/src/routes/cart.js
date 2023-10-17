@@ -10,9 +10,9 @@ router.get("/user/:userId", api.getCartByUserId);
 
 router.post("/", api.addCart);
 
-router.put("/item", api.deleteCartItem);
-router.put("/increase", api.increaseQuantity);
-router.put("/decrease", api.decreaseQuantity);
+router.post("/item", api.deleteCartItem);
+router.post("/increase", api.increaseQuantity);
+router.post("/decrease", api.decreaseQuantity);
 
 router.delete("/:cartId", jwtAuth, api.deleteCart);
 

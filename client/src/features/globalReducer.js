@@ -4,6 +4,9 @@ const initialState = {
   isSearch: false,
   searchQuery: "",
   quantity: 0,
+  showCart: false,
+  totalCart: 0,
+  rand: 1,
 }
 
 export const productSlice = createSlice({
@@ -27,17 +30,32 @@ export const productSlice = createSlice({
         state.quantity -= 1
       }
     },
+    toggleShowCart: (state, action) => {
+      state.showCart = action.payload
+    },
+    setTotalCart: (state, action) => {
+      state.totalCart = action.payload
+    },
+    setRand: (state, action) => {
+      state.rand = action.payload
+    },
   },
 })
 
 export const selectQuantity = (state) => state.product.quantity
 export const selectIsSearch = (state) => state.product.isSearch
 export const selectSearchQuery = (state) => state.product.searchQuery
-
+export const showCart = (state) => state.product.showCart
+export const totalCart = (state) => state.product.totalCart
+export const random = (state) => state.product.rand
 export const {
   toggleSearch,
   setSearchQuery,
   incrementQuantity,
   decrementQuantity,
+  toggleShowCart,
+  setTotalCart,
+  refetchCart,
+  setRand,
 } = productSlice.actions
 export default productSlice.reducer

@@ -13,7 +13,7 @@ import ManageProduct from "./manage/ManageProduct"
 
 const productsPerPage = 10
 
-const TabContentEvent = ({ value, data }) => {
+const ProductList = ({ value, data }) => {
   const { userId } = useContext(AuthContext)
   const { data: user, isFetched: userFetched } = useQuery(
     ["user-profile"],
@@ -73,11 +73,11 @@ const TabContentEvent = ({ value, data }) => {
   }
 
   return (
-    <TabsContent value={value} className="p-4">
+    <TabsContent value={value} className="px-4">
       <span className="flex gap-2 ml-4 mb-4">
         <Button
           className="p-3 bg-gray-500 rounded-full"
-          onClick={() => location.reload}
+          onClick={() => location.reload()}
         >
           <ListRestart />
         </Button>
@@ -96,16 +96,18 @@ const TabContentEvent = ({ value, data }) => {
           {sortPrice === "asc" ? <MoveDown size={15} /> : <MoveUp size={15} />}
         </Button>
       </span>
-      <div className="overflow-auto h-[600px] px-4">
-        <div className="grid grid-cols-4 gap-2">
+      <div className="overflow-auto h-[600px]">
+        <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-8">
           {paginatedProducts.map((product, i) => (
             <ProductCard key={i} product={product} role={role} />
           ))}
-          {products.length === 0 && <div className="text-xl">No Products</div>}
+          {role !== "1" && products.length === 0 && (
+            <div className="text-xl ml-4">No Products</div>
+          )}
           {role === 1 && (
             <Dialog>
               <DialogTrigger>
-                <div className="flex bg-gray-400 p-2 rounded-2xl relative w-72 h-[235px] text-8xl justify-center items-center hover:bg-gray-500 shadow-xl opacity-70">
+                <div className="h-[265px] flex justify-center items-center rounded-2xl bg-gray-500 hover:bg-gray-600 shadow-xl mx-auto 2xl:w-5/6 xl:w-72 sm:w-80 text-9xl opacity-70">
                   +
                 </div>
               </DialogTrigger>
@@ -142,7 +144,9 @@ const TabContentEvent = ({ value, data }) => {
           </button>
         ))}
         <button
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={() => {
+            handlePageChange(currentPage + 1)
+          }}
           disabled={currentPage === totalPages}
           className={`px-4 py-2 rounded ${
             currentPage === totalPages
@@ -157,4 +161,4 @@ const TabContentEvent = ({ value, data }) => {
   )
 }
 
-export default TabContentEvent
+export default ProductList

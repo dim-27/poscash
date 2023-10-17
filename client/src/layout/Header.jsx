@@ -25,17 +25,16 @@ import { useQuery } from "@tanstack/react-query"
 import { getAPI } from "@/repositories/api"
 import { useContext } from "react"
 import { AuthContext } from "@/components/auth/AuthContext"
+import { showCart, toggleShowCart, totalCart } from "@/features/globalReducer"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 const UserProfile = () => {
   const { userId, logout, isAdmin } = useContext(AuthContext)
-  const { data: user, isFetched } = useQuery(
-    ["user-profile"],
-    async () => {
-      const res = await getAPI(`user/${userId}`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
+  const { data: user, isFetched } = useQuery(["user-profile"], async () => {
+    const res = await getAPI(`user/${userId}`)
+    return res.data
+  })
   return (
     isFetched && (
       <DropdownMenu>
@@ -115,13 +114,16 @@ const UserProfile = () => {
 }
 
 const Header = () => {
+  const dispathc = useDispatch()
   const [darkMode, setDarkMode] = useState(false)
   const { isLogin } = useContext(AuthContext)
+  const show = useSelector(showCart)
+  const total = useSelector(totalCart)
 
   useEffect(() => {
     const mode = darkMode ? "dark" : "light"
     localStorage.setItem("mode", mode)
-  }, [darkMode])
+  }, [darkMode, total])
 
   useEffect(() => {
     const mode = localStorage.getItem("mode")
@@ -130,7 +132,7 @@ const Header = () => {
     return () => {
       document.documentElement.classList.remove(mode)
     }
-  }, [darkMode])
+  }, [darkMode, total])
 
   return (
     <nav className="z-20 w-full h-full flex items-center dark:bg-background dark:border-b dark:border-border justify-between gap-4 px-6 sm:px-10 py-2 shadow-sm top-0 left-0 bg-white">
@@ -144,13 +146,19 @@ const Header = () => {
         <SearchInput />
       </div>
 
-      <div className="flex gap-2 items-center">
-        <Link
-          to={`/${isLogin ? "cart" : "login"}`}
-          className="flex items-center backdrop-blur-sm gap-4 px-4 py-2 "
-        >
-          <ShoppingCart size={20} />
-        </Link>
+      <div className="flex gap-4 items-center">
+        <div className="flex relative">
+          <ShoppingCart
+            className="cursor-pointer"
+            size={32}
+            onClick={() => {
+              dispathc(toggleShowCart(!show))
+            }}
+          />
+          <span className="absolute left-6 bottom-4  bg-red-500 rounded-full font-bold text-sm text-white ring-white px-1">
+            {total}
+          </span>
+        </div>
         <div className={`${isLogin && "p-1 rounded-md w-12 h-12 ml-8"}`}>
           {isLogin ? (
             <UserProfile />

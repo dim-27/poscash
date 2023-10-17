@@ -2,13 +2,19 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
 import { FormatToIDR } from "@/lib/utils"
-import { Settings, Trash } from "lucide-react"
+import { Settings, Trash, ShoppingBasket } from "lucide-react"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import ManageProduct from "./manage/ManageProduct"
 import DeleteProduct from "./manage/DeleteProduct"
-import PropTypes from "prop-types"
+import { postAPI } from "@/repositories/api"
+import { useContext } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { AuthContext } from "../auth/AuthContext"
+import { Button } from "../ui/button"
+import { setRand } from "@/features/globalReducer"
 
 const ProductCard = ({ product, role }) => {
+  const { userId } = useContext(AuthContext)
   const dispatch = useDispatch()
   const [total, setTotal] = useState(0)
 
@@ -24,8 +30,20 @@ const ProductCard = ({ product, role }) => {
     }
   }
 
+  const randd = Math.random()
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      dispatch(setRand(randd))
+      return await postAPI(`cart`, data)
+    },
+  })
+
+  const addCart = async () => {
+    mutation.mutate({ userId: userId, productId: product.id, quantity: total })
+  }
+
   return (
-    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 hover:bg-gray-600 p-2 rounded-2xl relative w-72 shadow-xl">
+    <div className="flex flex-col p-2 space-y-2 rounded-2xl bg-gray-500 hover:bg-gray-600  shadow-xl mx-auto 2xl:w-5/6 xl:w-72 sm:w-80">
       <div
         className="h-40 w-full bg-gray-300 rounded-xl overflow-hidden"
         style={{
@@ -36,15 +54,15 @@ const ProductCard = ({ product, role }) => {
       >
         <img src={product.image_url} alt={product.name} />
       </div>
-      <div className="flex justify-between items-center pl-1">
-        <div className="flex flex-col items-start">
+      <div className="justify-between items-center px-1">
+        <div className="flex justify-between items-start">
           <span className="text-lg text-slate-50">{product.name}</span>
           <span className="text-white font-bold">
             {FormatToIDR(product.price)}
           </span>
         </div>
         {role === 1 ? (
-          <div className="flex gap-2">
+          <div className="flex justify-between items-center my-2">
             <Dialog>
               <DialogTrigger>
                 <div className="p-2 group rounded-full bg-red-600 cursor-pointer items-center">
@@ -71,33 +89,42 @@ const ProductCard = ({ product, role }) => {
             </Dialog>
           </div>
         ) : role === 2 ? (
-          <span className="flex items-center">
-            <button
-              onClick={handleDecrement}
-              className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
-              disabled={total <= 0}
-            >
-              -
-            </button>
-            <p className="mx-2 text-2xl">{total}</p>
-            <button
-              onClick={handleIncrement}
-              className="px-4 py-1 group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
-            >
-              +
-            </button>
-          </span>
+          <div className="flex justify-between items-center my-2">
+            <div className="flex items-center">
+              <Button
+                onClick={handleDecrement}
+                className="px-4 rounded-2xl bg-gray-400 cursor-pointer text-2xl font-bold"
+                disabled={total <= 0}
+              >
+                -
+              </Button>
+              <p className="mx-2 w-6 text-center text-2xl">{total}</p>
+              <Button
+                onClick={handleIncrement}
+                className="px-4 rounded-2xl bg-gray-400 cursor-pointer text-2xl font-bold"
+              >
+                +
+              </Button>
+            </div>
+
+            <ShoppingBasket
+              disabled={total !== 0}
+              size={40}
+              color="red"
+              className="bg-white rounded-full cursor-pointer p-1"
+              onClick={() => {
+                if (total > 0) {
+                  addCart()
+                }
+              }}
+            />
+          </div>
         ) : (
           <div></div>
         )}
       </div>
     </div>
   )
-}
-
-ProductCard.propTypes = {
-  product: PropTypes.any,
-  role: PropTypes.any,
 }
 
 export default ProductCard

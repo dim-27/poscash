@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import { Outlet } from "react-router-dom"
+import { Toaster } from "@/components/ui/toaster"
 
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
@@ -13,6 +14,7 @@ const App = () => {
         </div>
         <div className="h-[92vh]">
           <Outlet />
+          <Toaster />
         </div>
       </div>
       <Footer />

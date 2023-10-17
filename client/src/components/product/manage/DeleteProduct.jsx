@@ -6,14 +6,14 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog"
 import { useMutation } from "@tanstack/react-query"
 import { deleteAPI } from "@/repositories/api"
-import { decryptAES } from "@/utils/crypto"
-import { useContext } from "react"
-import { AuthContext } from "@/components/auth/AuthContext"
+// import { decryptAES } from "@/utils/crypto"
+// import { useContext } from "react"
+// import { AuthContext } from "@/components/auth/AuthContext"
 import PropTypes from "prop-types"
 
 const DeleteProduct = ({ product }) => {
-  const { token } = useContext(AuthContext)
-  const refineToken = decryptAES(token)
+  // const { token } = useContext(AuthContext)
+  // const refineToken = decryptAES(token)
   const mutation = useMutation({
     mutationFn: () => {
       const productId = product.id

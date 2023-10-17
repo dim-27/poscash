@@ -27,9 +27,10 @@ export default class CommandCart {
     const getCart = await this.query.getCartByUserId(userId);
     if (getCart) {
       const checkProduct = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
+      const item = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
       const { id } = getCart.dataValues;
       if (checkProduct) {
-        const getCartItem = await this.queryCartItem.getCartItemByproductId(productId);
+        const getCartItem = await this.queryCartItem.getCartItemById(item.id);
         const { qty } = getCartItem.dataValues;
         const updateQty = qty + Number(quantity);
         if (updateQty < 1) {
@@ -85,7 +86,9 @@ export default class CommandCart {
   async increaseQuantity(payload) {
     const { productId, userId } = payload;
     const params = { where: { productId: productId } };
-    const getCartItem = await this.cartItem.findOneCartItem(params);
+    const getCart = await this.query.getCartByUserId(userId);
+    const item = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
+    const getCartItem = await this.queryCartItem.getCartItemById(item.id);
     const { qty, price } = getCartItem.dataValues;
     const increase = Number(qty) + 1;
     const totalPrice = Number(price) * increase;
@@ -103,19 +106,27 @@ export default class CommandCart {
   async decreaseQuantity(payload) {
     const { productId, userId } = payload;
     const params = { where: { productId: productId } };
-    const getCartItem = await this.cartItem.findOneCartItem(params);
+    const getCart = await this.query.getCartByUserId(userId);
+    const item = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
+    const getCartItem = await this.queryCartItem.getCartItemById(item.id);
     const { qty, price } = getCartItem.dataValues;
     const increase = Number(qty) - 1;
     const totalPrice = Number(price) * increase;
     const updateQty = { qty: increase, total_price: totalPrice };
     await this.cartItem.updateOneCartItem(updateQty, params);
 
+    const updateCartItem = await this.queryCartItem.getCartItemById(item.id);
+    if (updateCartItem.dataValues.qty < 1) await this.cartItem.deleteOneCartItem({ where: { id: item.id } });
     const getCarts = await this.query.getCartByUserId(userId);
     const { cart_items, id } = getCarts.dataValues;
-    const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
-    let updateSubTotal = { sub_total: subTotal };
     const paramsUpdate = { where: { id: id } };
-    await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+    if (cart_items.length > 0) {
+      const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
+      let updateSubTotal = { sub_total: subTotal };
+      await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+    } else {
+      await this.cart.updateOneCart({ sub_total: 0 }, paramsUpdate);
+    }
   }
 
   async deleteCartItem(payload) {
@@ -124,12 +135,13 @@ export default class CommandCart {
     await this.cartItem.deleteOneCartItem(params);
 
     const getCarts = await this.query.getCartByUserId(userId);
-    const { cart_items, id } = getCarts.dataValues;
-    const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
-    let updateSubTotal = { sub_total: subTotal };
-    const paramsUpdate = { where: { id: id } };
-    console.log(subTotal);
-    await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+    if (getCarts.dataValues.length > 0) {
+      const { cart_items, id } = getCarts.dataValues;
+      const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
+      let updateSubTotal = { sub_total: subTotal };
+      const paramsUpdate = { where: { id: id } };
+      await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+    }
   }
 
   async deleteCart(cartId) {

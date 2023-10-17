@@ -18,7 +18,7 @@ export const registerSchema = z.object({
     .email("This is not a valid email."),
   password: z
     .string()
-    .min(8, { message: "password must be at least 8 character(s)" })
+    .min(6, { message: "password must be at least 6 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
   roleId: z.number(),
 })
@@ -30,7 +30,24 @@ export const loginSchema = z.object({
     .email("This is not a valid email."),
   password: z
     .string()
-    .min(6, { message: "password must be at least 8 character(s)" })
+    .min(6, { message: "password must be at least 6 character(s)" })
+    .max(16, { message: "max 16 character(s)" }),
+});
+
+export const sendMailSchema = z.object({
+  email: z.string().min(2, { message: "This field has to be filled." }).email("This is not a valid email."),
+});
+
+export const resetPasswordSchema = z.object({
+  userId: z.string(),
+  token: z.string(),
+  newPassword: z
+    .string()
+    .min(6, { message: "password must be at least 6 character(s)" })
+    .max(16, { message: "max 16 character(s)" }),
+  confirmPassword: z
+    .string()
+    .min(6, { message: "password must be at least 6 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
 })
 

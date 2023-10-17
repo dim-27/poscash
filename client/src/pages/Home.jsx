@@ -1,13 +1,18 @@
 import Product from "@/components/product";
-import Order from "@/components/order";
+import Cart from "@/components/cart/Cart";
+import { useSelector } from "react-redux";
+import { showCart } from "@/features/globalReducer";
 
 const Home = () => {
+  const show = useSelector(showCart);
   return (
     <div className="flex overflow-hidden h-full">
-      <div className="h-full w-2/3">
+      <div className={`${show ? "w-full" : "w-2/3"}"h-full `}>
         <Product />
       </div>
-      <Order />
+      <div className={`${show ? "w-1/3" : "hidden"} "p-4 bg-slate-200 rounded-lg"`}>
+        <Cart />
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const App = () => {
         <div className="h-[8vh]">
           <Header />
         </div>
-        <div className="h-[92vh]">
+        <div className="w-11/12 h-[92vh] mx-auto">
           <Outlet />
           <Toaster />
         </div>

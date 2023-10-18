@@ -62,4 +62,39 @@ export default class QueryOrder {
     // if (result.length === 0) throw new AppError("Data Empty", 404);
     return result;
   }
+
+  async getSalesOrder(query) {
+    const { date } = query;
+    const millisTime = new Date(date).getTime();
+
+    let sort;
+    let dateRange;
+    if (date) {
+      dateRange = {
+        date: { [Op.between]: [millisTime - 7 * 24 * 36 * 1e5, millisTime + 24 * 36 * 1e5 - 1] },
+      };
+      sort = "date";
+    }
+    const params = { order: [["date", "DESC"]], where: dateRange };
+    const result = await this.orderItem.findManyOrderItem(params);
+    // if (result.length === 0) throw new AppError("Data Empty", 404);
+    return result;
+  }
+
+  async getReportOrder(query) {
+    const { start, end } = query;
+    const millisStart = new Date(start).getTime();
+    const millisEnd = new Date(end).getTime();
+
+    let dateRange;
+    if (start && end) {
+      dateRange = {
+        date: { [Op.between]: [millisStart, millisEnd] },
+      };
+    }
+    const params = { order: [["date", "DESC"]], where: dateRange };
+    const result = await this.orderItem.findManyOrderItem(params);
+    // if (result.length === 0) throw new AppError("Data Empty", 404);
+    return result;
+  }
 }

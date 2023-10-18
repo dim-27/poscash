@@ -9,7 +9,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex">
-      <div className="w-1/4 sm:pr-16">
+      <div className="w-1/6 pr-32 lg:pr-0">
         <div className="flex gap-2 items-center my-4">
           <Link to="/" className="text-center text-xl font-semibold">
             <Home size={80} />

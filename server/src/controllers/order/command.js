@@ -47,6 +47,7 @@ export default class CommandOrder {
     await this.orderItem.insertManyOrderItem(itemList);
     await this.order.updateOneOrder(updateData, params);
     await this.cart.deleteOneCart(paramsCart);
+    await this.cart.insertOneCart(data);
   }
 
   async addOrder(payload) {

@@ -1,7 +1,7 @@
 import { getAPI } from "@/repositories/api";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar } from "@/components/ui/calendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -12,8 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { toast } from "@/components/ui/use-toast";
-import { Overview } from "@/components/dashboard/Chart";
+import ChartReport from "@/components/dashboard/ChartReport";
 
 const FormSchema = z.object({
   start: z.date({
@@ -25,22 +24,11 @@ const FormSchema = z.object({
 });
 
 const Report = () => {
-  const [query, setQuery] = useState("?");
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
+  const [start, setStart] = useState(new Date().toLocaleDateString("en-US"));
+  const [end, setEnd] = useState(new Date().toLocaleDateString("en-US"));
   const onSubmit = async (data) => {
     setStart(data.start);
     setEnd(data.end);
-    setQuery(`?start=${data.start.toLocaleDateString("en-US")}&end=${data.end.toLocaleDateString("en-US")}`);
-    await refetch();
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
   };
 
   const {
@@ -50,7 +38,7 @@ const Report = () => {
   } = useQuery(
     ["report"],
     async () => {
-      const res = await getAPI(`order/item${query}`);
+      const res = await getAPI(`order/report?start=${start}&end=${end}`);
       return res.data;
     },
     { enabled: false }
@@ -60,27 +48,9 @@ const Report = () => {
     resolver: zodResolver(FormSchema),
   });
 
-  const endDate = new Date(end);
-  let loop = new Date(start);
-  let data = [];
-  while (loop < endDate) {
-    const newDate = loop.setDate(loop.getDate() + 1);
-    loop = new Date(newDate);
-    const revenue =
-      isFetched &&
-      report.rows.length > 0 &&
-      report.rows
-        .map((item) => {
-          if (new Date(item.date).toLocaleDateString("en-US") === loop.toLocaleDateString("en-US")) {
-            const total = item.qty * item.price;
-            return total;
-          } else {
-            return 0;
-          }
-        })
-        .reduce((a, b) => a + b);
-    data.push({ date: loop.toLocaleDateString("en-US"), revenue: revenue });
-  }
+  useEffect(() => {
+    refetch();
+  }, [start, end]);
 
   return (
     <div>
@@ -167,9 +137,7 @@ const Report = () => {
           </form>
         </Form>
       </div>
-      <div>
-        <Overview data={data} />
-      </div>
+      <div>{<ChartReport start={start} end={end} isFetched={isFetched} report={report} />}</div>
     </div>
   );
 };

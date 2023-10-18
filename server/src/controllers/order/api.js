@@ -29,6 +29,18 @@ const getOrderItems = tryCatch(async (req, res) => {
   return utils.responseSuccess(res, response);
 });
 
+const getSalesOrder = tryCatch(async (req, res) => {
+  const params = req.query;
+  const response = await query.getSalesOrder(params);
+  return utils.responseSuccess(res, response);
+});
+
+const getReportOrder = tryCatch(async (req, res) => {
+  const params = req.query;
+  const response = await query.getReportOrder(params);
+  return utils.responseSuccess(res, response);
+});
+
 const transaction = tryCatch(async (req, res) => {
   const payload = req.body;
   const response = await command.transaction(payload);
@@ -58,6 +70,8 @@ export default {
   getOrderById,
   getOrderByUserId,
   getOrderItems,
+  getSalesOrder,
+  getReportOrder,
   transaction,
   addOrder,
   addOrderItem,

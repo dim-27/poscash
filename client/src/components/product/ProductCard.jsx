@@ -4,14 +4,14 @@ import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
 import { FormatToIDR } from "@/lib/utils"
 import { Settings, Trash, ShoppingBasket } from "lucide-react"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import ManageProduct from "./manage/ManageProduct"
-import DeleteProduct from "./manage/DeleteProduct"
 import { postAPI } from "@/repositories/api"
 import { useContext } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { AuthContext } from "../auth/AuthContext"
 import { Button } from "../ui/button"
 import { setRand } from "@/features/globalReducer"
+import ManageProduct from "./manageProduct/ManageProduct"
+import DeleteProduct from "./manageProduct/DeleteProduct"
 
 const ProductCard = ({ product, role }) => {
   const { userId } = useContext(AuthContext)

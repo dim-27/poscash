@@ -1,29 +1,16 @@
-import { useState, useContext } from "react"
+import { useState } from "react"
 import { selectIsSearch, selectSearchQuery } from "@/features/globalReducer"
 import { useSelector } from "react-redux"
-import { useQuery } from "@tanstack/react-query"
-import { getAPI } from "@/repositories/api"
-import { AuthContext } from "@/components/auth/AuthContext"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { TabsContent } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { ListRestart, CircleDollarSign, MoveUp, MoveDown } from "lucide-react"
 import ProductCard from "./ProductCard"
-import ManageProduct from "./manage/ManageProduct"
+import ManageProduct from "./manageProduct/ManageProduct"
 
 const productsPerPage = 10
 
-const ProductList = ({ value, data }) => {
-  const { userId } = useContext(AuthContext)
-  const { data: user, isFetched: userFetched } = useQuery(
-    ["user-profile"],
-    async () => {
-      const res = await getAPI(`user/${userId}`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
-  const role = userFetched && user?.roleId
+const ProductList = ({ value, data, role }) => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const searchQuery = useSelector(selectSearchQuery)
@@ -118,7 +105,7 @@ const ProductList = ({ value, data }) => {
           )}
         </div>
       </div>
-      <div className="flex justify-center gap-2 p-4">
+      <div className="flex justify-center gap-2 py-8">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

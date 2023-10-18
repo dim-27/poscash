@@ -1,10 +1,25 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getAPI } from "@/repositories/api"
+import { AuthContext } from "@/components/auth/AuthContext"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Settings } from "lucide-react"
+import ProductListCategory from "./ProductListCategory"
 import ProductList from "./ProductList"
+import ManageCategory from "./manageCategory"
 
 const Product = () => {
+  const { userId } = useContext(AuthContext)
+  const { data: user, isFetched: userFetched } = useQuery(
+    ["user-profile"],
+    async () => {
+      const res = await getAPI(`user/${userId}`)
+      return res.data
+    }
+    // { refetchInterval: 5000 }
+  )
+  const role = userFetched && user?.roleId
+
   const { data: categories, isFetched } = useQuery(
     ["categories"],
     async () => {
@@ -19,30 +34,6 @@ const Product = () => {
     ["products/all"],
     async () => {
       const res = await getAPI(`product`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
-  const { data: food, isFetched: foodFetched } = useQuery(
-    ["products/food"],
-    async () => {
-      const res = await getAPI(`product/category/1`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
-  const { data: drink, isFetched: drinkFetched } = useQuery(
-    ["products/drink"],
-    async () => {
-      const res = await getAPI(`product/category/2`)
-      return res.data
-    }
-    // { refetchInterval: 5000 }
-  )
-  const { data: dessert, isFetched: dessertFetched } = useQuery(
-    ["products/dessert"],
-    async () => {
-      const res = await getAPI(`product/category/3`)
       return res.data
     }
     // { refetchInterval: 5000 }
@@ -72,11 +63,25 @@ const Product = () => {
               {category.category}
             </TabsTrigger>
           ))}
+        {role === 1 && (
+          <TabsTrigger
+            className="p-2 px-2 rounded-full hover:ring-1 hover:ring-gray-600 data-[state=active]:border-gray-600 data-[state=active]:border data-[state=active]:text-gray-600 data-[state=active]:font-bold"
+            value="settings"
+          >
+            <Settings />
+          </TabsTrigger>
+        )}
       </TabsList>
-      <ProductList value="all" data={allFetched && all} />
-      <ProductList value="food" data={foodFetched && food} />
-      <ProductList value="drink" data={drinkFetched && drink} />
-      <ProductList value="dessert" data={dessertFetched && dessert} />
+      <ProductList value="all" role={role} data={allFetched && all} />
+      {isFetched &&
+        categories.map((category) => (
+          <ProductListCategory
+            key={category.id}
+            role={role}
+            category={category}
+          />
+        ))}
+      <ManageCategory value="settings" data={isFetched && categories} />
     </Tabs>
   )
 }

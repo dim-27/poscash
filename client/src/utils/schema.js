@@ -32,11 +32,14 @@ export const loginSchema = z.object({
     .string()
     .min(6, { message: "password must be at least 6 character(s)" })
     .max(16, { message: "max 16 character(s)" }),
-});
+})
 
 export const sendMailSchema = z.object({
-  email: z.string().min(2, { message: "This field has to be filled." }).email("This is not a valid email."),
-});
+  email: z
+    .string()
+    .min(2, { message: "This field has to be filled." })
+    .email("This is not a valid email."),
+})
 
 export const resetPasswordSchema = z.object({
   userId: z.string(),
@@ -71,6 +74,12 @@ export const registerProductSchema = z.object({
     .string()
     .min(8, { message: "description at least 8 character(s)" })
     .max(100, { message: "max 100 character(s)" }),
+})
+
+export const categorySchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Category Name must be at least 3 character(s)" }),
 })
 
 export const biodataSchema = z.object({})

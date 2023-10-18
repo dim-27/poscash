@@ -22,7 +22,7 @@ const LoginAdmin = () => {
   const { loginAdmin } = useContext(AuthContext);
   const toast = useToast();
   const initForm = {
-    email: "",
+    fullname: "",
     password: "",
   };
   const form = useForm({
@@ -73,12 +73,12 @@ const LoginAdmin = () => {
               <div className="w-full space-y-4">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="fullname"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel htmlFor="fullname">Username</FormLabel>
                       <FormControl>
-                        <Input type="email" id="email" placeholder="example@mail" {...field} />
+                        <Input type="text" id="fullname" placeholder="Captain_Kuro" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

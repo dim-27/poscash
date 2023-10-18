@@ -16,6 +16,7 @@ const Report = lazy(() => import("../pages/dashboard/Report"));
 const History = lazy(() => import("../pages/dashboard/History"));
 const SendMail = lazy(() => import("../components/auth/SendMail"));
 const ResetPassword = lazy(() => import("../components/auth/ResetPassword"));
+const Cashier = lazy(() => import("../pages/dashboard/Cashier"));
 
 const AppWrapper = () => {
   return (
@@ -38,6 +39,7 @@ const AppWrapper = () => {
               <Route path="sales" element={<Sales />} />
               <Route path="report" element={<Report />} />
               <Route path="history" element={<History />} />
+              <Route path="cashier" element={<Cashier />} />
             </Route>
           </Route>
         </Routes>

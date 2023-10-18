@@ -6,8 +6,16 @@ export default class QueryUser {
     this.user = new Users();
   }
 
-  async getUsers() {
-    const params = {};
+  async getUsers(query) {
+    let params;
+    const { roleId } = query;
+    if (roleId) {
+      params = {
+        where: {
+          roleId: roleId,
+        },
+      };
+    }
     const result = await this.user.findManyUser(params);
     // if (result.length === 0) throw new AppError("Data Empty", 404);
     return result;
@@ -22,6 +30,12 @@ export default class QueryUser {
 
   async getUserByEmail(email) {
     const params = { where: { email: email } };
+    const result = await this.user.findOneUser(params);
+    return result;
+  }
+
+  async getUserByName(name) {
+    const params = { where: { fullname: name } };
     const result = await this.user.findOneUser(params);
     return result;
   }

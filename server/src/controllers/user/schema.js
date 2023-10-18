@@ -12,11 +12,7 @@ const register = joi.object({
 });
 
 const login = joi.object({
-  email: joi
-    .string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "proton"] } })
-    .max(100)
-    .required(),
+  fullname: joi.string().min(3).required(),
   password: joi.string().min(6).max(16).required(),
 });
 

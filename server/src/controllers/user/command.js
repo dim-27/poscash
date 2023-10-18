@@ -22,7 +22,7 @@ export default class CommandUser {
       email: email,
       password: pwd,
       image_url: imageURL,
-      roleId: roleId,
+      roleId: 2,
     };
     const checkUser = await this.query.getUserByEmail(email);
     if (checkUser !== null) throw new AppError("Email Already Exist", 403);
@@ -80,6 +80,32 @@ export default class CommandUser {
     fs.unlink(`public/${path}`, (err) => {
       if (err) console.log(err);
     });
+    await this.user.updateOneUser(updateData, params);
+  }
+
+  async updateUser(payload, userId) {
+    const params = { where: { id: userId } };
+    const getUser = await this.query.getUserById(userId);
+
+    // console.log(getUser.dataValues, "this is the value");
+    const dataUser = getUser.dataValues;
+    const { fullname, email, password, phone_number, birthdate } = payload;
+    console.log(dataUser.fullname);
+    let updateData = {};
+    if (dataUser.fullname !== fullname) {
+      updateData.fullname = fullname;
+    }
+    if (dataUser.email !== email) {
+      updateData.email = email;
+    }
+    if (dataUser.phone_number !== phone_number) {
+      updateData.phone_number = phone_number;
+    }
+    if (dataUser.birthdate !== birthdate) {
+      updateData.birthdate = birthdate;
+    }
+
+    console.log(updateData);
     await this.user.updateOneUser(updateData, params);
   }
 

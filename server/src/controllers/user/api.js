@@ -8,7 +8,8 @@ const query = new QueryUser();
 const command = new CommandUser();
 
 const getUsers = tryCatch(async (req, res) => {
-  const response = await query.getUsers();
+  const reqQuery = req.query
+  const response = await query.getUsers(reqQuery);
   return utils.responseSuccess(res, response);
 });
 

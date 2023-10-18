@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { UserCircle, Newspaper, BarChart2, Home, History } from "lucide-react";
+import { UserCircle, Newspaper, BarChart2, Home, History, CreditCard } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "@/components/auth/AuthContext";
@@ -24,6 +24,12 @@ const Dashboard = () => {
         </div>
         {isAdmin && (
           <div>
+            <div className="flex gap-2 items-center my-4">
+              <Link to="/dashboard/cashier" className="text-center text-xl font-semibold">
+                <CreditCard size={80} />
+                <span>Cashier</span>
+              </Link>
+            </div>
             <div className="flex gap-2 items-center my-4">
               <Link to="/dashboard/sales" className="text-center text-xl font-semibold">
                 <BarChart2 size={80} />

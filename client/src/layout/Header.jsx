@@ -1,10 +1,8 @@
-// import { toggleSearch } from "@/features/slice/eventSlice";
+import SearchInput from "@/components/header/SearchInput";
 import { Switch } from "@/components/ui/switch";
-import { LayoutDashboard, LogOut, Search, ShoppingCart, UserCircle, Newspaper, BarChart2, History } from "lucide-react";
+import { LayoutDashboard, LogOut, ShoppingCart, UserCircle, Newspaper, BarChart2, History } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -143,14 +141,11 @@ const Header = () => {
         >
           Poscash
         </Link>
-        <div className="flex cursor-pointer bg-background border-slate-500 dark:border-border backdrop-blur-sm w-[350px] gap-2 rounded-xl items-center border p-1">
-          <Search size={20} className="ml-2 text-slate dark:text-foreground" />
-          <Input className="px-2 py-1 dark:text-foreground w-full border-none outline-none focus:outline-none" />
-        </div>
+        <SearchInput />
       </div>
 
-      <div className="flex gap-2 items-center">
-        <div className="flex relative mr-6">
+      <div className="flex gap-4 items-center">
+        <div className="flex relative">
           <ShoppingCart
             className="cursor-pointer"
             size={32}

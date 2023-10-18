@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isSearch: false,
+  searchQuery: "",
   quantity: 0,
   showCart: false,
   totalCart: 0,
@@ -17,6 +18,9 @@ export const productSlice = createSlice({
         state.searchProducts = [];
       }
       state.isSearch = action.payload;
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     },
     incrementQuantity: (state) => {
       state.quantity += 1;
@@ -39,11 +43,14 @@ export const productSlice = createSlice({
 });
 
 export const selectQuantity = (state) => state.product.quantity;
+export const selectIsSearch = (state) => state.product.isSearch;
+export const selectSearchQuery = (state) => state.product.searchQuery;
 export const showCart = (state) => state.product.showCart;
 export const totalCart = (state) => state.product.totalCart;
 export const random = (state) => state.product.rand;
 export const {
   toggleSearch,
+  setSearchQuery,
   incrementQuantity,
   decrementQuantity,
   toggleShowCart,

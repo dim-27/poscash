@@ -43,7 +43,7 @@ const ProductCard = ({ product, role }) => {
 
   return (
     <div
-      className="flex flex-col space-y-2 col-span-1 bg-gray-500 hover:bg-gray-600 p-2 rounded-2xl w-60 shadow-xl mx-auto mb-4 "
+      className="flex flex-col p-2 space-y-2 rounded-2xl bg-gray-500 hover:bg-gray-600  shadow-xl mx-auto 2xl:w-5/6 xl:w-72 sm:w-80"
       onMouseOver={() => dispatch(setRand(Math.random()))}
     >
       <div
@@ -56,13 +56,13 @@ const ProductCard = ({ product, role }) => {
       >
         <img src={product.image_url} alt={product.name} />
       </div>
-      <div className="justify-between items-center pl-1">
+      <div className="justify-between items-center px-1">
         <div className="flex justify-between items-start">
           <span className="text-lg text-slate-50">{product.name}</span>
           <span className="text-white font-bold">{FormatToIDR(product.price)}</span>
         </div>
         {role === 1 ? (
-          <div className="flex gap-2">
+          <div className="flex justify-between items-center my-2">
             <Dialog>
               <DialogTrigger>
                 <div className="p-2 group rounded-full bg-red-600 cursor-pointer items-center">
@@ -89,19 +89,19 @@ const ProductCard = ({ product, role }) => {
             </Dialog>
           </div>
         ) : role === 2 ? (
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center my-2">
             <div className="flex items-center">
               <Button
                 onClick={handleDecrement}
-                className="px-4 h-5 inline-relative group rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
+                className="px-4 rounded-2xl bg-gray-400 cursor-pointer text-2xl font-bold"
                 disabled={total <= 0}
               >
                 -
               </Button>
-              <p className="mx-2 w-6 text-center text-lg">{total}</p>
+              <p className="mx-2 w-6 text-center text-2xl">{total}</p>
               <Button
                 onClick={handleIncrement}
-                className="px-4 h-5 group  rounded-2xl bg-gray-400 cursor-pointer text-xl font-bold"
+                className="px-4 rounded-2xl bg-gray-400 cursor-pointer text-2xl font-bold"
               >
                 +
               </Button>
@@ -109,9 +109,9 @@ const ProductCard = ({ product, role }) => {
 
             <ShoppingBasket
               disabled={total !== 0}
-              size={25}
+              size={40}
               color="red"
-              className="bg-white rounded-full cursor-pointer"
+              className="bg-white rounded-full cursor-pointer p-1"
               onClick={() => {
                 if (total > 0) {
                   addCart();

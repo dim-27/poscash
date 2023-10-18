@@ -89,7 +89,7 @@ export default class QueryOrder {
     let dateRange;
     if (start && end) {
       dateRange = {
-        date: { [Op.between]: [millisStart, millisEnd] },
+        date: { [Op.between]: [millisStart, millisEnd + 24 * 36 * 1e5 - 1] },
       };
     }
     const params = { order: [["date", "DESC"]], where: dateRange };

@@ -1,15 +1,6 @@
 import SearchInput from "@/components/header/SearchInput";
 import { Switch } from "@/components/ui/switch";
-import {
-  LayoutDashboard,
-  LogOut,
-  ShoppingCart,
-  UserCircle,
-  Newspaper,
-  BarChart2,
-  History,
-  CreditCard,
-} from "lucide-react";
+import { LogOut, ShoppingCart, UserCircle, Newspaper, BarChart2, History, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -82,6 +73,12 @@ const UserProfile = () => {
           {isAdmin && (
             <div>
               <DropdownMenuItem className="flex gap-2 items-center">
+                <Link to={`/dashboard/cashier`} className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4" />
+                  <span>Cashier</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex gap-2 items-center">
                 <Link to={`/dashboard/sales`} className="flex items-center gap-2">
                   <BarChart2 className="w-4 h-4" />
                   <span>Sales</span>
@@ -99,20 +96,9 @@ const UserProfile = () => {
                   <span>History</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-2 items-center">
-                <Link to={`/dashboard/cashier`} className="flex items-center gap-2">
-                  <CreditCard className="w-4 h-4" />
-                  <span>Cashier</span>
-                </Link>
-              </DropdownMenuItem>
             </div>
           )}
-          <DropdownMenuItem className="flex gap-2 items-center">
-            <Link to={`/dashboard/profile`} className="flex items-center gap-2">
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
-          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem className="flex gap-2 items-center mt-2">
             <LogOut className="w-4 h-4 " />

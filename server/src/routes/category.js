@@ -8,7 +8,7 @@ router.get("/", api.getCategories)
 router.get("/:categoryId", api.getCategoryById)
 
 router.post("/", api.addCategory)
-
+router.put("/:categoryId", api.updateCategory)
 router.delete("/:categoryId", jwtAuth, api.deleteCategory)
 
 export default router

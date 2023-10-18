@@ -1,45 +1,45 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { incrementQuantity, decrementQuantity } from "@/features/globalReducer";
-import { FormatToIDR } from "@/lib/utils";
-import { Settings, Trash, ShoppingBasket } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import ManageProduct from "./manage/ManageProduct";
-import DeleteProduct from "./manage/DeleteProduct";
-import { postAPI } from "@/repositories/api";
-import { useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { AuthContext } from "../auth/AuthContext";
-import { Button } from "../ui/button";
-import { setRand } from "@/features/globalReducer";
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { incrementQuantity, decrementQuantity } from "@/features/globalReducer"
+import { FormatToIDR } from "@/lib/utils"
+import { Settings, Trash, ShoppingBasket } from "lucide-react"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { postAPI } from "@/repositories/api"
+import { useContext } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { AuthContext } from "../auth/AuthContext"
+import { Button } from "../ui/button"
+import { setRand } from "@/features/globalReducer"
+import ManageProduct from "./manageProduct/ManageProduct"
+import DeleteProduct from "./manageProduct/DeleteProduct"
 
 const ProductCard = ({ product, role }) => {
-  const { userId } = useContext(AuthContext);
-  const dispatch = useDispatch();
-  const [total, setTotal] = useState(0);
+  const { userId } = useContext(AuthContext)
+  const dispatch = useDispatch()
+  const [total, setTotal] = useState(0)
 
   const handleIncrement = () => {
-    dispatch(incrementQuantity());
-    setTotal(total + 1);
-  };
+    dispatch(incrementQuantity())
+    setTotal(total + 1)
+  }
 
   const handleDecrement = () => {
     if (total > 0) {
-      dispatch(decrementQuantity());
-      setTotal(total - 1);
+      dispatch(decrementQuantity())
+      setTotal(total - 1)
     }
-  };
+  }
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      dispatch(setRand(Math.random()));
-      return await postAPI(`cart`, data);
+      dispatch(setRand(Math.random()))
+      return await postAPI(`cart`, data)
     },
-  });
+  })
 
   const addCart = async () => {
-    mutation.mutate({ userId: userId, productId: product.id, quantity: total });
-  };
+    mutation.mutate({ userId: userId, productId: product.id, quantity: total })
+  }
 
   return (
     <div
@@ -59,7 +59,9 @@ const ProductCard = ({ product, role }) => {
       <div className="justify-between items-center px-1">
         <div className="flex justify-between items-start">
           <span className="text-lg text-slate-50">{product.name}</span>
-          <span className="text-white font-bold">{FormatToIDR(product.price)}</span>
+          <span className="text-white font-bold">
+            {FormatToIDR(product.price)}
+          </span>
         </div>
         {role === 1 ? (
           <div className="flex justify-between items-center my-2">
@@ -114,7 +116,7 @@ const ProductCard = ({ product, role }) => {
               className="bg-white rounded-full cursor-pointer p-1"
               onClick={() => {
                 if (total > 0) {
-                  addCart();
+                  addCart()
                 }
               }}
             />
@@ -124,7 +126,7 @@ const ProductCard = ({ product, role }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

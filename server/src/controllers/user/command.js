@@ -34,9 +34,9 @@ export default class CommandUser {
   }
 
   async loginCashier(payload) {
-    const { email, password } = payload;
-    const checkUser = await this.query.getUserByEmail(email);
-    if (checkUser === null) throw new AppError("Email not Found", 404);
+    const { fullname, password } = payload;
+    const checkUser = await this.query.getUserByName(fullname);
+    if (checkUser === null) throw new AppError("User not Found", 404);
     const dataUser = checkUser.dataValues;
     const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
     if (!checkPwd) throw new AppError("Password not Match", 401);
@@ -51,9 +51,10 @@ export default class CommandUser {
   }
 
   async loginAdmin(payload) {
-    const { email, password } = payload;
-    const checkUser = await this.query.getUserByEmail(email);
-    if (checkUser === null) throw new AppError("Email not Found", 404);
+    const { fullname, password } = payload;
+    console.log(payload);
+    const checkUser = await this.query.getUserByName(fullname);
+    if (checkUser === null) throw new AppError("User not Found", 404);
     const dataUser = checkUser.dataValues;
     const checkPwd = await bcrypt.compareHash(password, checkUser.dataValues.password);
     if (!checkPwd) throw new AppError("Password not Match", 401);

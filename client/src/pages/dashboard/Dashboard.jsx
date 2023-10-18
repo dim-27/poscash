@@ -8,8 +8,8 @@ const Dashboard = () => {
   const { isAdmin } = useContext(AuthContext);
 
   return (
-    <div className="flex">
-      <div className="w-1/6 pr-32 lg:pr-0">
+    <div className="flex h-screen">
+      <div className="w-1/6 pr-32 lg:pr-0 py-8 overflow-scroll">
         <div className="flex gap-2 items-center my-4">
           <Link to="/" className="text-center text-xl font-semibold">
             <Home size={80} />
@@ -51,7 +51,7 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-      <div className="w-full">
+      <div className="w-full mt-10 h-[20vh]">
         <Outlet />
       </div>
     </div>

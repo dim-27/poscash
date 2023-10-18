@@ -9,7 +9,7 @@ import { postAPI } from "@/repositories/api";
 import { FormatToIDR } from "@/lib/utils";
 import { useToast } from "../ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBasketIcon, ConciergeBell } from "lucide-react";
 
 import { totalCart } from "@/features/globalReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,13 +59,13 @@ const Cart = () => {
   }, [mutation.isSuccess, mutation.isError, total, rand, cart]);
 
   return (
-    <div className="h-screen pr-6">
+    <div className="h-screen">
       <div className="h-14 p-4 flex items-center pt-8">
         <ShoppingBasketIcon size={40} />
         <span className="ml-4 text-4xl font-bold">{total}</span>
       </div>
-      {isFetched && cart ? (
-        <div className="h-[65vh] overflow-scroll">
+      {isFetched && cart !== null && cart.cart_items.length > 0 ? (
+        <div className="h-[64vh] overflow-scroll">
           <div className="flex flex-col mt-4">
             {cart.cart_items.map((item) => (
               <CartItem key={item.id} item={item} refetch={refetch} />
@@ -73,7 +73,12 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <div className="flex justify-center items-center h-[64vh]">
+          <div>
+            <ConciergeBell className="mx-auto" size={40} />
+            <span className="text-slate-500 font-thin">cart empty</span>
+          </div>
+        </div>
       )}
       <div className="mt-8">
         <div className="flex justify-between">

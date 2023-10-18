@@ -6,7 +6,7 @@ const HistoryTransaction = ({ history, index }) => {
   return (
     <TableRow>
       <TableCell className="w-1/12 font-semibold">{index + 1}</TableCell>
-      <TableCell className="w-1/12 font-medium">{`INV00${history.id}`}</TableCell>
+      <TableCell className="w-1/12 font-medium">{`INV${String(history.id).padStart(4, "0")}`}</TableCell>
       <TableCell className="w-2/12">{date}</TableCell>
       <TableCell className="w-2/12">{history.name}</TableCell>
       <div>

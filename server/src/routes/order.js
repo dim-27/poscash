@@ -6,6 +6,8 @@ const router = Router();
 
 router.get("/", api.getOrders);
 router.get("/item", api.getOrderItems);
+router.get("/sales", api.getSalesOrder);
+router.get("/report", api.getReportOrder);
 router.get("/user/:userId", api.getOrderByUserId);
 
 router.post("/transaction", api.transaction);

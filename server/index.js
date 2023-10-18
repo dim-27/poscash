@@ -6,6 +6,7 @@ import helmet from "helmet";
 import errorHandler from "./src/utils/error-handler.js";
 import notFound from "./src/utils/not-found.js";
 import { connetionMysql } from "./src/config/db.js";
+import { generateCSV } from "./src/helpers/generate-csv.js";
 
 import userRoutes from "./src/routes/user.js";
 import roleRoutes from "./src/routes/role.js";
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(helmet());
 
 connetionMysql();
+// generateCSV();
 
 app.use("/api/user", userRoutes);
 app.use("/api/role", roleRoutes);

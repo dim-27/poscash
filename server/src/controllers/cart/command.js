@@ -131,16 +131,20 @@ export default class CommandCart {
 
   async deleteCartItem(payload) {
     const { productId, userId } = payload;
-    const params = { where: { productId: productId } };
+    const getCart = await this.query.getCartByUserId(userId);
+    const item = getCart.dataValues.cart_items.find((item) => item.dataValues.productId == productId);
+    const params = { where: { id: item.id } };
     await this.cartItem.deleteOneCartItem(params);
 
-    const getCarts = await this.query.getCartByUserId(userId);
-    if (getCarts.dataValues.length > 0) {
-      const { cart_items, id } = getCarts.dataValues;
+    const getUpdateCart = await this.query.getCartByUserId(userId);
+    const { cart_items, id } = getUpdateCart.dataValues;
+    const paramsUpdate = { where: { id: id } };
+    if (getUpdateCart.dataValues.cart_items.length > 0) {
       const subTotal = cart_items.map((item) => Number(item.dataValues.total_price)).reduce((a, b) => a + b);
       let updateSubTotal = { sub_total: subTotal };
-      const paramsUpdate = { where: { id: id } };
       await this.cart.updateOneCart(updateSubTotal, paramsUpdate);
+    } else {
+      await this.cart.updateOneCart({ sub_total: 0 }, paramsUpdate);
     }
   }
 

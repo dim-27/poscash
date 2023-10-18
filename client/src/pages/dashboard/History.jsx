@@ -3,7 +3,8 @@ import { getAPI } from "@/repositories/api";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import HistoryTransaction from "@/components/dashboard/HistoryTransaction";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ChevronRight, ChevronLast, ChevronLeft, ChevronFirst } from "lucide-react";
 
 const History = () => {
   const [page, setPage] = useState(1);
@@ -11,49 +12,81 @@ const History = () => {
     data: histories,
     isFetched,
     refetch,
-  } = useQuery(
-    ["history"],
-    async () => {
-      const res = await getAPI(`order/item?limit=10&page=${page}`);
-      return res.data;
-    },
-    { refetchOnWindowFocus: false }
-  );
+  } = useQuery(["history"], async () => {
+    const res = await getAPI(`order/item?limit=10&page=${page}`);
+    return res.data;
+  });
 
-  let arrButton = [];
   const totalPage = isFetched && Math.ceil(histories.count / 10);
-  for (let i = 1; i <= totalPage; i++) {
-    arrButton.push(
-      <Button
-        className="bg-red-500 hover:bg-red-400 ease-in-out duration-300 mx-4"
-        onClick={async () => {
-          await refetch();
-          setPage(i);
-        }}
-      >
-        {i}
-      </Button>
-    );
-  }
+
+  useEffect(() => {
+    refetch();
+  }, [page, histories, refetch]);
+
   return (
     <div className="h-screen">
-      <div>
+      <div className="h-[80vh]">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Qty</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-1/12">No.</TableHead>
+              <TableHead className="w-1/12">Invoice</TableHead>
+              <TableHead className="w-2/12">Date</TableHead>
+              <TableHead className="w-2/12">Name</TableHead>
+              <TableHead className="w-2/12 pl-16">Price</TableHead>
+              <TableHead className="w-1/12 md:pl-12">Qty</TableHead>
+              <TableHead className="w-3/12 text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isFetched && histories?.rows.map((history) => <HistoryTransaction key={history.id} history={history} />)}
+            {isFetched &&
+              histories?.rows.map((history, i) => <HistoryTransaction key={history.id} history={history} index={i} />)}
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-center mt-10">{arrButton}</div>
+      <div className="flex justify-center items-center">
+        <Button
+          disabled={page <= 1}
+          className="mx-2"
+          onClick={async () => {
+            setPage(1);
+          }}
+        >
+          <ChevronFirst />
+        </Button>
+        <Button
+          disabled={page <= 1}
+          className="mx-2"
+          onClick={async () => {
+            if (page > 1) {
+              setPage(page - 1);
+            }
+          }}
+        >
+          <ChevronLeft />
+        </Button>
+        <span className="text-2xl font-medium mx-4">{page}</span>
+        <Button
+          disabled={page >= totalPage}
+          className="mx-2"
+          onClick={async () => {
+            if (page < totalPage) {
+              setPage(page + 1);
+            }
+          }}
+        >
+          <ChevronRight />
+        </Button>
+        <Button
+          disabled={page >= totalPage}
+          className="mx-2"
+          onClick={async () => {
+            setPage(totalPage);
+          }}
+        >
+          <ChevronLast />
+        </Button>
+      </div>
     </div>
   );
 };

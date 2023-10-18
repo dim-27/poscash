@@ -84,11 +84,9 @@ const Cart = () => {
         </div>
 
         <Button
-          className={`${cart ? `` : `btn-disabled`} mt-4  bg-green-500 hover:bg-green-400 ease-in-out duration-300 `}
-          onClick={async () => {
-            checkout();
-            await refetch();
-          }}
+          disabled={cart !== null ? isFetched && cart.cart_items.length < 1 : true}
+          className={`mt-4  bg-green-500 hover:bg-green-400 ease-in-out duration-300 `}
+          onClick={checkout}
         >
           Checkout
         </Button>

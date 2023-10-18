@@ -22,13 +22,25 @@ import { AuthContext } from "@/components/auth/AuthContext";
 import { showCart, toggleShowCart, totalCart } from "@/features/globalReducer";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { random } from "@/features/globalReducer";
 
 const UserProfile = () => {
   const { userId, logout, isAdmin } = useContext(AuthContext);
-  const { data: user, isFetched } = useQuery(["user-profile"], async () => {
+  const rand = useSelector(random);
+
+  const {
+    data: user,
+    isFetched,
+    refetch,
+  } = useQuery(["user-profile"], async () => {
     const res = await getAPI(`user/${userId}`);
     return res.data;
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, rand]);
+
   return (
     isFetched && (
       <DropdownMenu>
@@ -52,12 +64,15 @@ const UserProfile = () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="flex gap-2 items-center">
-            <Link to={`/dashboard/profile`} className="flex items-center gap-2">
-              <UserCircle className="w-4 h-4" />
-              <span>Profile</span>
-            </Link>
-          </DropdownMenuItem>
+
+          {!isAdmin && (
+            <DropdownMenuItem className="flex gap-2 items-center">
+              <Link to={`/dashboard/profile`} className="flex items-center gap-2">
+                <UserCircle className="w-4 h-4" />
+                <span>Profile</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
 
           {isAdmin && (
             <div>
@@ -135,7 +150,7 @@ const Header = () => {
       </div>
 
       <div className="flex gap-2 items-center">
-        <div className="flex relative">
+        <div className="flex relative mr-6">
           <ShoppingCart
             className="cursor-pointer"
             size={32}
@@ -143,7 +158,7 @@ const Header = () => {
               dispathc(toggleShowCart(!show));
             }}
           />
-          <span className="absolute left-6 bottom-4  bg-red-500 rounded-full font-bold text-sm text-white ring-white px-1">
+          <span className="absolute left-6 bottom-4  bg-red-500 rounded-full font-bold text-sm text-white ring-white px-2 border border-white">
             {total}
           </span>
         </div>

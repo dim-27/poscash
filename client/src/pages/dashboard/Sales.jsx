@@ -1,43 +1,22 @@
 import { Label } from "@/components/ui/label";
 import { getAPI } from "@/repositories/api";
-import { Overview } from "@/components/dashboard/Chart";
 import { useQuery } from "@tanstack/react-query";
+import SalesChart from "@/components/dashboard/SalesChart";
 
 const Sales = () => {
   const today = new Date().toLocaleDateString("en-US");
   const { data: sales, isFetched } = useQuery(["sales"], async () => {
-    const res = await getAPI(`order/item?date=${today}`);
+    const res = await getAPI(`order/sales?date=${today}`);
     return res.data;
   });
-
-  const endDate = new Date();
-  const startDate = new Date().getTime() - 7 * 24 * 36 * 1e5;
-  let loop = new Date(startDate);
-  let data = [];
-  while (loop < endDate) {
-    const newDate = loop.setDate(loop.getDate() + 1);
-    loop = new Date(newDate);
-    const revenue =
-      isFetched &&
-      sales.rows.length > 0 &&
-      sales.rows
-        .map((item) => {
-          if (new Date(item.date).toLocaleDateString("en-US") === loop.toLocaleDateString("en-US")) {
-            const total = item.qty * item.price;
-            return total;
-          } else {
-            return 0;
-          }
-        })
-        .reduce((a, b) => a + b);
-    data.push({ date: loop.toLocaleDateString("en-US"), revenue: revenue });
-  }
+  console.log("today", today);
+  console.log("today", isFetched && sales);
   return (
     isFetched && (
       <div>
         <Label className="text-2xl font-semibold mb-24">Sales Per Day</Label>
         <div className="mt-24">
-          <Overview data={data} />
+          <SalesChart isFetched={isFetched} sales={sales} />
         </div>
       </div>
     )

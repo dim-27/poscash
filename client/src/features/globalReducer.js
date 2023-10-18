@@ -5,7 +5,7 @@ const initialState = {
   quantity: 0,
   showCart: false,
   totalCart: 0,
-  rand: 1,
+  rand: Math.random(),
 };
 
 export const productSlice = createSlice({

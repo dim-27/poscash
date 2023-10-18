@@ -30,10 +30,9 @@ const ProductCard = ({ product, role }) => {
     }
   };
 
-  const randd = Math.random();
   const mutation = useMutation({
     mutationFn: async (data) => {
-      dispatch(setRand(randd));
+      dispatch(setRand(Math.random()));
       return await postAPI(`cart`, data);
     },
   });
@@ -43,7 +42,10 @@ const ProductCard = ({ product, role }) => {
   };
 
   return (
-    <div className="flex flex-col space-y-2 col-span-1 bg-gray-500 hover:bg-gray-600 p-2 rounded-2xl w-60 shadow-xl mx-auto mb-4 ">
+    <div
+      className="flex flex-col space-y-2 col-span-1 bg-gray-500 hover:bg-gray-600 p-2 rounded-2xl w-60 shadow-xl mx-auto mb-4 "
+      onMouseOver={() => dispatch(setRand(Math.random()))}
+    >
       <div
         className="h-40 w-full bg-gray-300 rounded-xl overflow-hidden"
         style={{

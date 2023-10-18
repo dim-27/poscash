@@ -76,7 +76,7 @@ const LoginAdmin = () => {
                   name="fullname"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-3">
-                      <FormLabel htmlFor="fullname">Email</FormLabel>
+                      <FormLabel htmlFor="fullname">Username</FormLabel>
                       <FormControl>
                         <Input type="text" id="fullname" placeholder="Captain_Kuro" {...field} />
                       </FormControl>

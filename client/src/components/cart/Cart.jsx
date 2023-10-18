@@ -59,19 +59,17 @@ const Cart = () => {
   }, [mutation.isSuccess, mutation.isError, total, rand, cart]);
 
   return (
-    <div className="px-4 h-screen">
-      <div className="h-14 p-2 flex items-center pt-6">
+    <div className="h-screen pr-6">
+      <div className="h-14 p-4 flex items-center pt-8">
         <ShoppingBasketIcon size={40} />
         <span className="ml-4 text-4xl font-bold">{total}</span>
       </div>
       {isFetched && cart ? (
-        <div className="">
-          <div className="h-[65vh] overflow-scroll">
-            <div className="flex flex-col mt-4">
-              {cart.cart_items.map((item) => (
-                <CartItem key={item.id} item={item} refetch={refetch} />
-              ))}
-            </div>
+        <div className="h-[65vh] overflow-scroll">
+          <div className="flex flex-col mt-4">
+            {cart.cart_items.map((item) => (
+              <CartItem key={item.id} item={item} refetch={refetch} />
+            ))}
           </div>
         </div>
       ) : (

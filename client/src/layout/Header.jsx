@@ -63,14 +63,12 @@ const UserProfile = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          {!isAdmin && (
-            <DropdownMenuItem className="flex gap-2 items-center">
-              <Link to={`/dashboard/profile`} className="flex items-center gap-2">
-                <UserCircle className="w-4 h-4" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem className="flex gap-2 items-center">
+            <Link to={`/dashboard/profile`} className="flex items-center gap-2">
+              <UserCircle className="w-4 h-4" />
+              <span>Profile</span>
+            </Link>
+          </DropdownMenuItem>
 
           {isAdmin && (
             <div>
@@ -145,18 +143,20 @@ const Header = () => {
       </div>
 
       <div className="flex gap-4 items-center">
-        <div className="flex relative">
-          <ShoppingCart
-            className="cursor-pointer"
-            size={32}
-            onClick={() => {
-              dispathc(toggleShowCart(!show));
-            }}
-          />
-          <span className="absolute left-6 bottom-4  bg-red-500 rounded-full font-bold text-sm text-white ring-white px-2 border border-white">
-            {total}
-          </span>
-        </div>
+        {isLogin && (
+          <div className="flex relative">
+            <ShoppingCart
+              className="cursor-pointer"
+              size={32}
+              onClick={() => {
+                dispathc(toggleShowCart(!show));
+              }}
+            />
+            <span className="absolute left-6 bottom-4  bg-red-500 rounded-full font-bold text-sm text-white ring-white px-2 border border-white">
+              {total}
+            </span>
+          </div>
+        )}
         <div className={`${isLogin && "p-1 rounded-md w-12 h-12 ml-8"}`}>
           {isLogin ? (
             <UserProfile />

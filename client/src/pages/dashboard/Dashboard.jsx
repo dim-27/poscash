@@ -16,14 +16,12 @@ const Dashboard = () => {
             <span>Home</span>
           </Link>
         </div>
-        {!isAdmin && (
-          <div className="flex gap-2 items-center my-4">
-            <Link to="/dashboard/profile" className="text-center text-xl font-semibold">
-              <UserCircle size={80} />
-              <span>Profile</span>
-            </Link>
-          </div>
-        )}
+        <div className="flex gap-2 items-center my-4">
+          <Link to="/dashboard/profile" className="text-center text-xl font-semibold">
+            <UserCircle size={80} />
+            <span>Profile</span>
+          </Link>
+        </div>
         {isAdmin && (
           <div>
             <div className="flex gap-2 items-center my-4">

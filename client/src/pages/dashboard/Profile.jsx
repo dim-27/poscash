@@ -120,7 +120,7 @@ const Profile = () => {
             <Label className="font-semibold text-xl">Date Register</Label>
             <p className="mb-8">{user.createdAt}</p>
             <Label className="font-semibold text-xl">Role</Label>
-            <p className="mb-8">{user.roleId === 2 && "cashier"}</p>
+            <p className="mb-8">{user.roleId === 1 ? "admin" : "cashier"}</p>
           </div>
         </div>
       </div>

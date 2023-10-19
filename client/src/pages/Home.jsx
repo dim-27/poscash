@@ -9,7 +9,7 @@ const Home = () => {
       </div>
       <Order />
     </div>
-  );
+);
 };
 
 export default Home;

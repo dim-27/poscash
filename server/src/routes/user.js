@@ -14,10 +14,10 @@ router.post("/login-admin", api.loginAdmin);
 router.post("/reset-password", api.resetPassword);
 
 router.put("/upload-image/:userId", upload, jwtAuth, api.uploadImage);
-router.put("/update/:userId", jwtAuth, api.updateUser, (req,res) => {
-  res.json({id})
+router.put("/update/:userId", api.updateUser, (req,res) => {
+  res.json({id: req.user})
 });
 
-router.delete("/:userId", jwtAuth, api.deleteUser);
+router.delete("/:userId", api.deleteUser);
 
 export default router;

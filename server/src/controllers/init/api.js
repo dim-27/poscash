@@ -28,6 +28,7 @@ const firtsInit = tryCatch(async (req, res) => {
   await category.insertManyCategory(dataCategory);
   await role.insertManyRole(dataRole);
   await user.insertOneUser(dataUser);
+  // console.log(dataUser);
   return utils.responseSuccess(res);
 });
 

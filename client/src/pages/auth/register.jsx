@@ -22,7 +22,7 @@ const RegisterCashier = () => {
     fullname: "",
     email: "",
     password: "",
-    roleId: 2,
+    // roleId: 2,
   };
 
   const form = useForm({

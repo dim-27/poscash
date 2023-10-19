@@ -30,7 +30,7 @@ export const putAPI = async (params, data, token) => {
 }
 
 export const deleteAPI = async (params, token) => {
-  const res = await axios.get(`${baseUrl}/${params}`, {
+  const res = await axios.delete(`${baseUrl}/${params}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return res.data

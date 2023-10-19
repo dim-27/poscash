@@ -102,4 +102,9 @@ export default class CommandUser {
     console.log(updateData);
     await this.user.updateOneUser(updateData, params);
   }
+
+  async deleteUser(userId) {
+    const params = { where: { id: userId } };
+    await this.user.deleteOneUser(params);
+  }
 }

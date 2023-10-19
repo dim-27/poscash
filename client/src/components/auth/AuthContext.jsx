@@ -60,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
   const loginAdmin = async (data) => {
     console.log(data);
     const res = await postAPI("user/login-admin", data);
+    console.log(data);
     saveToken(res.data);
   };
 

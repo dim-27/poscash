@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormLabel, FormItem, FormField } from "@/components/ui/form";
@@ -18,7 +19,7 @@ import { AuthContext } from "@/components/auth/AuthContext";
 
 const LoginCashier = () => {
   const navigate = useNavigate();
-  const { loginCashier } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
   const initForm = {
     email: "",
     password: "",
@@ -30,7 +31,7 @@ const LoginCashier = () => {
 
   const mutation = useMutation({
     mutationFn: async (data) => {
-      return await loginCashier(data);
+      return await loginUser(data);
     },
   });
 
@@ -114,3 +115,7 @@ const LoginCashier = () => {
   );
 };
 export default LoginCashier;
+
+// Login.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };

@@ -7,9 +7,10 @@ import { Settings } from "lucide-react"
 import ProductListCategory from "./ProductListCategory"
 import ProductList from "./ProductList"
 import ManageCategory from "./manageCategory"
+import login from "/login.jpg?url"
 
 const Product = () => {
-  const { userId } = useContext(AuthContext)
+  const { userId, isLogin } = useContext(AuthContext)
   const { data: user, isFetched: userFetched } = useQuery(
     ["user-profile"],
     async () => {
@@ -39,7 +40,7 @@ const Product = () => {
     // { refetchInterval: 5000 }
   )
 
-  return (
+  return isLogin ? (
     <Tabs
       defaultValue="all"
       value={tab}
@@ -83,6 +84,12 @@ const Product = () => {
         ))}
       <ManageCategory value="settings" data={isFetched && categories} />
     </Tabs>
+  ) : (
+    <img
+      className="mx-auto transform translate-y-1/2"
+      src={login}
+      alt="You must login first!"
+    />
   )
 }
 

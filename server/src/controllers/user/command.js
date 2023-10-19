@@ -26,11 +26,7 @@ export default class CommandUser {
     };
     const checkUser = await this.query.getUserByEmail(email);
     if (checkUser !== null) throw new AppError("Email Already Exist", 403);
-    const user = await this.user.insertOneUser(data);
-    const token = jwt.sign({ id: user.dataValues.id }, process.env.SECRET_KEY);
-    const encrypted = await crypto.encryptAES(token);
-    const link = `${process.env.CLIENT_LINK}/verify-email?token=${encrypted}&userId=${user.dataValues.id}`;
-    mailer.verifyEmail(link, email);
+    await this.user.insertOneUser(data);
   }
 
   async loginCashier(payload) {
@@ -110,7 +106,6 @@ export default class CommandUser {
     await this.user.updateOneUser(updateData, params);
   }
 
-<<<<<<< HEAD
   async resetPassword(payload) {
     const { email } = payload;
     const getUser = await this.query.getUserByEmail(email);
@@ -139,10 +134,10 @@ export default class CommandUser {
         }
       }
     }
-=======
+  }
+
   async deleteUser(userId) {
     const params = { where: { id: userId } };
     await this.user.deleteOneUser(params);
->>>>>>> 7df0150bf77c858b02af238dd005c0be7a623ff7
   }
 }

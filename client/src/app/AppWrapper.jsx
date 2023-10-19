@@ -1,22 +1,22 @@
-import LoginAdmin from "@/pages/auth/LoginAdmin";
-import { Fragment, lazy, Suspense } from "react";
-import { Routes, Route } from "react-router";
+import LoginAdmin from "@/pages/auth/LoginAdmin"
+import { Fragment, lazy, Suspense } from "react"
+import { Routes, Route } from "react-router"
 
-const App = lazy(() => import("./App"));
-const Home = lazy(() => import("../pages/Home"));
-const LoginAs = lazy(() => import("../pages/auth/LoginAs"));
-const LoginCashier = lazy(() => import("../pages/auth/LoginCashier"));
-const loginAdmin = lazy(() => import("../pages/auth/LoginAdmin"));
-const RegisterCashier = lazy(() => import("../pages/auth/register"));
+const App = lazy(() => import("./App"))
+const Home = lazy(() => import("../pages/Home"))
+const LoginAs = lazy(() => import("../pages/auth/LoginAs"))
+const LoginCashier = lazy(() => import("../pages/auth/LoginCashier"))
+const loginAdmin = lazy(() => import("../pages/auth/LoginAdmin"))
+const RegisterCashier = lazy(() => import("../pages/auth/register"))
 
-const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
-const Profile = lazy(() => import("../pages/dashboard/Profile"));
-const Sales = lazy(() => import("../pages/dashboard/Sales"));
-const Report = lazy(() => import("../pages/dashboard/Report"));
-const History = lazy(() => import("../pages/dashboard/History"));
-const SendMail = lazy(() => import("../components/auth/SendMail"));
-const ResetPassword = lazy(() => import("../components/auth/ResetPassword"));
-const Cashier = lazy(() => import("../pages/dashboard/Cashier"));
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
+const Profile = lazy(() => import("../pages/dashboard/Profile"))
+const Sales = lazy(() => import("../pages/dashboard/Sales"))
+const Report = lazy(() => import("../pages/dashboard/Report"))
+const History = lazy(() => import("../pages/dashboard/History"))
+const SendMail = lazy(() => import("../components/auth/SendMail"))
+const ResetPassword = lazy(() => import("../components/auth/ResetPassword"))
+const Cashier = lazy(() => import("../pages/dashboard/Cashier"))
 
 const AppWrapper = () => {
   return (
@@ -45,7 +45,7 @@ const AppWrapper = () => {
         </Routes>
       </Suspense>
     </Fragment>
-  );
-};
+  )
+}
 
-export default AppWrapper;
+export default AppWrapper

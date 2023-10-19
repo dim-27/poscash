@@ -58,17 +58,25 @@ const ProductCard = ({ product, role }) => {
           <DialogTrigger>
             <img src={product.image_url} alt={product.name} />
           </DialogTrigger>
-          <DialogContent className="flex gap-2 p-4 bg-gray-50">
-            <img src={product.image_url} alt={product.name} />
-            <div className="flex p-2 flex-grow flex-col justify-center">
-              <span className="text-lg text-black">Name : {product.name}</span>
-              <span className="text-lg text-black">
-                Price : {product.price}
-              </span>
-              <span className="text-lg text-black">
-                Description : {product.description}
-              </span>
+          <DialogContent className="flex flex-col gap-4 p-4 bg-gray-50 overflow-hidden">
+            <div className="flex justify-center gap-8">
+              <img
+                className="max-w-[150px] overflow-hidden"
+                src={product.image_url}
+                alt={product.name}
+              />
+              <div className="flex p-2 flex-col justify-center">
+                <span className="text-lg text-black">
+                  Name : {product.name}
+                </span>
+                <span className="text-lg text-black">
+                  Price : {product.price}
+                </span>
+              </div>
             </div>
+            <span className="text-lg text-center text-black">
+              Description : {product.description}
+            </span>
           </DialogContent>
         </Dialog>
       </div>

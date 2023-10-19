@@ -17,6 +17,8 @@ const History = lazy(() => import("../pages/dashboard/History"));
 const SendMail = lazy(() => import("../components/auth/SendMail"));
 const ResetPassword = lazy(() => import("../components/auth/ResetPassword"));
 const Cashier = lazy(() => import("../pages/dashboard/Cashier"));
+const AddCashier = lazy(() => import("../pages/dashboard/AddCashier"));
+const EditCashier = lazy(() => import("../pages/dashboard/EditCashier"));
 
 const AppWrapper = () => {
   return (
@@ -40,6 +42,8 @@ const AppWrapper = () => {
               <Route path="report" element={<Report />} />
               <Route path="history" element={<History />} />
               <Route path="cashier" element={<Cashier />} />
+              <Route path="cashier/edit/:id" element={<EditCashier />} />
+              <Route path="cashier/add" element={<AddCashier />} />
             </Route>
           </Route>
         </Routes>

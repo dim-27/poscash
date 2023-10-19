@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AppWrapper from "./app/AppWrapper.jsx";
 import { store } from "./features/store.js";
 import { AuthContextProvider } from "./components/auth/AuthContext.jsx";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import "./index.css";
 const queryClient = new QueryClient({
@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </AuthContextProvider>
         </BrowserRouter>
       </Provider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   </React.StrictMode>
 );

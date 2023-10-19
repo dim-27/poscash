@@ -11,7 +11,7 @@ const Sales = () => {
   return (
     isFetched && (
       <div>
-        <p className="text-2xl font-semibold mb-6">Sales Per Day</p>
+        <p className="text-2xl font-semibold mb-6 place-content-center">Sales Per Day</p>
         <SalesChart isFetched={isFetched} sales={sales} />
       </div>
     )

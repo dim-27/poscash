@@ -14,7 +14,7 @@ const Home = () => {
         <Cart />
       </div>
     </div>
-  );
+);
 };
 
 export default Home;

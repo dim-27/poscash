@@ -54,7 +54,7 @@ const Report = () => {
 
   return (
     <div>
-      <div>
+      <div className="mb-4">
         <Form {...form} className="flex">
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-end justify-around">
             <div>

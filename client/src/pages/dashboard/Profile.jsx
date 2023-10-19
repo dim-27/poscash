@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { Label } from "@/components/ui/label";
 
 const Profile = () => {
-  const { userId, token } = useContext(AuthContext);
+  const { userId, token, isAdmin } = useContext(AuthContext);
   const dispathc = useDispatch();
 
   const uploadImage = {
@@ -95,6 +95,7 @@ const Profile = () => {
                 />
               </div>
               <Button
+                disabled={isAdmin}
                 className="mt-4  bg-primary hover:bg-primary/80 dark:bg-primary dark:hover:bg-primary/80"
                 type="submit"
                 onClick={dispathc(setRand(Math.random()))}

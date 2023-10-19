@@ -110,6 +110,7 @@ export default class CommandUser {
     await this.user.updateOneUser(updateData, params);
   }
 
+<<<<<<< HEAD
   async resetPassword(payload) {
     const { email } = payload;
     const getUser = await this.query.getUserByEmail(email);
@@ -138,5 +139,10 @@ export default class CommandUser {
         }
       }
     }
+=======
+  async deleteUser(userId) {
+    const params = { where: { id: userId } };
+    await this.user.deleteOneUser(params);
+>>>>>>> 7df0150bf77c858b02af238dd005c0be7a623ff7
   }
 }

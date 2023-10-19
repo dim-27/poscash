@@ -1,6 +1,7 @@
 import LoginAdmin from "@/pages/auth/LoginAdmin";
 import { Fragment, lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
+import { Loader2 } from "lucide-react";
 
 const App = lazy(() => import("./App"));
 const Home = lazy(() => import("../pages/Home"));
@@ -23,7 +24,13 @@ const EditCashier = lazy(() => import("../pages/dashboard/EditCashier"));
 const AppWrapper = () => {
   return (
     <Fragment>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex h-screen">
+            <span className="text-blue-700 text-8xl font-bold mx-auto my-auto opacity-25">LOADING...</span>
+          </div>
+        }
+      >
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="" element={<Home />} />

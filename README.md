@@ -1,6 +1,6 @@
 # Poscash App
 
-clone this repo repo
+clone this repo
 ```
 git clone https://github.com/AnwarAan/poscash
 ```
